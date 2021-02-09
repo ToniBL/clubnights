@@ -67,9 +67,9 @@ app.post("/registration", (req, res) => {
                 hashedPw
             ).then((result) => {
                 console.log("result:", result);
-                // req.session.userId = result.rows[0].id;
-                //console.log("req.session.userId:", req.session.userId);
-                // res.json(result);
+                req.session.userId = result.rows[0].id;
+                console.log("req.session.userId:", req.session.userId);
+                res.json(result);
             });
         })
 
@@ -79,14 +79,27 @@ app.post("/registration", (req, res) => {
         });
 });
 
-//*route handles all not specified routes
-// it had a check for user logged in, which is now done in welcome:
-// if user is not logged in redirect to /welcome
-// if (!req.session.sessionId) {
-//     res.redirect("/welcome");
-// } else {
-//     // if user is logged in, send HTML, once client has HTML start.js renders p-tag on screen
-// }
+app.post("/login", (req, res) => {
+    console.log("req.body:", req.body);
+    const password = req.body.password;
+    db.loginUser(req.body.email).then((result) => {
+        let hashedPw = result.rows[0].password;
+        return compare(password, hashedPw)
+            .then((match) => {
+                console.log("match value from compare:", match);
+                if (match === true) {
+                    res.redirect("/logo");
+                } else {
+                    console.log("err in loginUser:", err);
+                    res.json({ err: true });
+                }
+            })
+            .catch((err) => {
+                console.log("err in login:", err);
+                res.json({ err: true });
+            });
+    });
+});
 
 // app.post("/some-route", (req, res) => {
 //     sendEmail(

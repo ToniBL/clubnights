@@ -1,12 +1,18 @@
-// src/welcome.js
+import { HashRouter, Route } from "react-router-dom";
 import Registration from "./registration";
+import Login from "./login";
 
-// "dumb"/"presentational" are alternative names for function components
 export default function Welcome() {
     return (
-        <div>
-            <h1>Welcome</h1>
-            <Registration />
+        <div id="welcome">
+            <h1>Welcome!</h1>
+            <img src="/logo.png" />
+            <HashRouter>
+                <div>
+                    <Route exact path="/" component={Registration} />
+                    <Route path="/login" component={Login} />
+                </div>
+            </HashRouter>
         </div>
     );
 }
