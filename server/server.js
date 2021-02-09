@@ -6,6 +6,7 @@ const db = require("./db");
 const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc");
 const { SecretsManager } = require("aws-sdk");
+const csurf = require("csurf");
 
 let cookie_sec;
 if (process.env.cookie_secret) {
@@ -28,25 +29,29 @@ app.use(
     })
 );
 
+app.use(csurf());
+app.use(function (req, res, next) {
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
+
+//Debug Middleware: what url get's requested and what cookies do we have?
+app.use((req, res, next) => {
+    console.log("req.url", req.url);
+    console.log("req.session:", req.session);
+
+    next();
+});
+
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
+        console.log("redirecting to '/'");
         res.redirect("/");
     } else {
         // user not logged in, no redirect
         // after sendFile (sending HTML back as response) runs start.js
-        res.sendFile(path.join(__dirname, "...", "client", "index.html"));
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
     }
-});
-
-//*route handles all not specified routes
-app.get("*", function (req, res) {
-    // if user is not logged in redirect to /welcome
-    if (!req.session.sessionId) {
-        res.redirect("/welcome");
-    } else {
-        // if user is logged in, send HTML, once client has HTML start.js renders p-tag on screen
-    }
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
 app.post("/registration", (req, res) => {
@@ -69,6 +74,17 @@ app.post("/registration", (req, res) => {
             console.log("errin registerUser:", err);
             //  hier auch setState err:true?
         });
+});
+
+//*route handles all not specified routes
+app.get("*", function (req, res) {
+    // if user is not logged in redirect to /welcome
+    // if (!req.session.sessionId) {
+    //     res.redirect("/welcome");
+    // } else {
+    //     // if user is logged in, send HTML, once client has HTML start.js renders p-tag on screen
+    // }
+    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
 app.listen(process.env.PORT || 3001, function () {
