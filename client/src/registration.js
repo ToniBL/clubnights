@@ -7,11 +7,11 @@ export default class Registration extends React.Component {
     constructor() {
         super();
         this.state = {
-            err: false,
             first: "",
             last: "",
             email: "",
             password: "",
+            err: false,
         };
     }
 
@@ -30,22 +30,14 @@ export default class Registration extends React.Component {
     handleClick() {
         // with submit we trigger axios to server to pass input value to db
         // check input before axios
-        if (
-            this.state.first == "" ||
-            this.state.last == "" ||
-            this.state.email == "" ||
-            this.state.password == ""
-        ) {
-            this.setState({
-                err: true,
-            });
-        }
+
         axios
             .post("/registration", this.state)
             .then((resp) => {
-                console.log("res from server:");
+                console.log("resp.data from server:", resp.data);
                 // err still needs to be defined
-                if (!resp) {
+                if (resp.data.err == true) {
+                    console.log("err no resp data");
                     this.setState({
                         err: true,
                     });
@@ -64,8 +56,10 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div>
-                {this.state.error && <p>Something broke</p>}
-                <h1>Registartion</h1>
+                {this.state.err && (
+                    <p> ERROR: Something went wrong please try again</p>
+                )}
+                <h1>Registration</h1>
                 <input
                     onChange={(e) => this.handleChange(e)}
                     name="first"
@@ -91,6 +85,7 @@ export default class Registration extends React.Component {
                     placeholder="password"
                 ></input>
                 <button onClick={() => this.handleClick()}>submit</button>
+                <p>Allready a member? Log in</p>
             </div>
         );
     }

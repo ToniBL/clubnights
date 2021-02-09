@@ -7,6 +7,8 @@ const cookieSession = require("cookie-session");
 const { hash, compare } = require("./bc");
 const { SecretsManager } = require("aws-sdk");
 const csurf = require("csurf");
+const { sendEmail } = require("./ses");
+const cryptoRandomString = require("crypto-random-string");
 
 let cookie_sec;
 if (process.env.cookie_secret) {
@@ -28,7 +30,7 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
     })
 );
-
+// csurf comment out for Part 1 finishing
 app.use(csurf());
 app.use(function (req, res, next) {
     res.cookie("mytoken", req.csrfToken());
@@ -36,12 +38,12 @@ app.use(function (req, res, next) {
 });
 
 //Debug Middleware: what url get's requested and what cookies do we have?
-app.use((req, res, next) => {
-    console.log("req.url", req.url);
-    console.log("req.session:", req.session);
+// app.use((req, res, next) => {
+//     console.log("req.url", req.url);
+//     console.log("req.session:", req.session);
 
-    next();
-});
+//     next();
+// });
 
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -58,32 +60,47 @@ app.post("/registration", (req, res) => {
     hash(req.body.password)
         .then((hashedPw) => {
             console.log("hashedPW in register:", hashedPw);
-            return db.registerUser(
+            db.registerUser(
                 req.body.first,
                 req.body.last,
                 req.body.email,
                 hashedPw
-            );
+            ).then((result) => {
+                console.log("result:", result);
+                // req.session.userId = result.rows[0].id;
+                //console.log("req.session.userId:", req.session.userId);
+                // res.json(result);
+            });
         })
-        .then((result) => {
-            console.log("result:", result);
-            req.sessionuserId = result.rows[0].id;
-            res.json(result.rows[0]);
-        })
+
         .catch((err) => {
-            console.log("errin registerUser:", err);
-            //  hier auch setState err:true?
+            console.log("err in registerUser:", err);
+            res.json({ err: true });
         });
 });
 
 //*route handles all not specified routes
+// it had a check for user logged in, which is now done in welcome:
+// if user is not logged in redirect to /welcome
+// if (!req.session.sessionId) {
+//     res.redirect("/welcome");
+// } else {
+//     // if user is logged in, send HTML, once client has HTML start.js renders p-tag on screen
+// }
+
+// app.post("/some-route", (req, res) => {
+//     sendEmail(
+//         "mailadress",
+//         "code",
+//         "message"
+//     )
+//     .then(() =>
+//     console.log("yay")
+// }). catch
+
+// })
+
 app.get("*", function (req, res) {
-    // if user is not logged in redirect to /welcome
-    // if (!req.session.sessionId) {
-    //     res.redirect("/welcome");
-    // } else {
-    //     // if user is logged in, send HTML, once client has HTML start.js renders p-tag on screen
-    // }
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
