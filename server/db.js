@@ -23,3 +23,10 @@ module.exports.checkEmail = (email) => {
     const params = [email];
     return db.query(q, params);
 };
+
+module.exports.setCode = (email, code) => {
+    const q = `INSERT into reset_codes (email, code) 
+    VALUES ($1, $2)`;
+    const params = [email, code];
+    return db.query(q, params);
+};

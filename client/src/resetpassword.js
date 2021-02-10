@@ -7,12 +7,22 @@ export default class ResetPassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            email: "",
+            code: "",
             renderView: 1,
             err: false,
         };
     }
 
+    changeHandler(e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+        });
+        // console.log(this.state);
+    }
+
     clickReset() {
+        console.log("submit clicked");
         axios.post("/resetpassword", this.state).then((resp) => {
             console.log("resp.data from server:", resp.data);
             if (resp.data.err) {
@@ -35,8 +45,13 @@ export default class ResetPassword extends React.Component {
                     <p>
                         Please enter the email address with which you registered
                     </p>
-                    <input name="email" />
-                    <button onClick={() => this.clickReset}>Submit</button>
+
+                    <input
+                        onChange={(e) => this.changeHandler(e)}
+                        type="email"
+                        name="email"
+                    />
+                    <button onClick={() => this.clickReset()}>Submit</button>
                 </div>
             );
         } else if (this.state.renderView === 2) {
