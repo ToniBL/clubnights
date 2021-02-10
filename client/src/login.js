@@ -23,10 +23,20 @@ export default class Login extends React.Component {
         );
     }
 
-    handleClick() {
-        axios.post("/login", this.state).then((resp) => {
-            console.log("resp.data from server:", resp.data);
-        });
+    clickLogin() {
+        axios
+            .post("/login", this.state)
+            .then((resp) => {
+                console.log("resp.data from server:", resp.data);
+                if (resp.data.err) {
+                    return this.setState({ err: true });
+                } else {
+                    return location.replace("/");
+                }
+            })
+            .catch((err) => {
+                console.log("err in clickLogin:", err);
+            });
     }
 
     render() {
@@ -47,7 +57,7 @@ export default class Login extends React.Component {
                     type="password"
                     placeholder="password"
                 ></input>
-                <button onClick={() => this.handleClick()}>Login</button>
+                <button onClick={() => this.clickLogin()}>Login</button>
                 <Link to="/">Click here to register!</Link>
             </div>
         );

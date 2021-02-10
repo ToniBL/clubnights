@@ -82,23 +82,29 @@ app.post("/registration", (req, res) => {
 app.post("/login", (req, res) => {
     console.log("req.body:", req.body);
     const password = req.body.password;
-    db.loginUser(req.body.email).then((result) => {
-        let hashedPw = result.rows[0].password;
-        return compare(password, hashedPw)
-            .then((match) => {
-                console.log("match value from compare:", match);
-                if (match === true) {
-                    res.redirect("/logo");
-                } else {
-                    console.log("err in loginUser:", err);
+    db.loginUser(req.body.email)
+        .then((result) => {
+            let hashedPw = result.rows[0].password;
+            return compare(password, hashedPw)
+                .then((match) => {
+                    console.log("match value from compare:", match);
+                    if (match) {
+                        req.session.userId = result.rows[0].id;
+                        return res.json({ succsess: true });
+                    } else {
+                        console.log("err in matchPw:");
+                        res.json({ err: true });
+                    }
+                })
+                .catch((err) => {
+                    console.log("err catch matchPw:", err);
                     res.json({ err: true });
-                }
-            })
-            .catch((err) => {
-                console.log("err in login:", err);
-                res.json({ err: true });
-            });
-    });
+                });
+        })
+        .catch((err) => {
+            console.log("err in loginUser:", err);
+            return res.json({ err: true });
+        });
 });
 
 // app.post("/some-route", (req, res) => {
