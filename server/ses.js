@@ -7,7 +7,7 @@ if (process.env.NODE_ENV == "production") {
     secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
 }
 
-// creating in instance (obj from constructor) of SES and store in an variable
+// creating an instance (obj from constructor) of SES and store in an variable
 const ses = new aws.SES({
     accessKeyId: secrets.AWS_KEY,
     secretAccessKey: secrets.AWS_SECRET,
@@ -18,7 +18,7 @@ exports.sendEmail = function (recipient, message, subject) {
     //ses.sendEmail takes one big obj as argument
     return ses
         .sendEmail({
-            Source: "Funky Chicken <knotty.wok@spicedling.email> ",
+            Source: "Toni BL <knotty.wok@spicedling.email> ",
             Destination: {
                 ToAddresses: [recipient],
             },
@@ -33,7 +33,7 @@ exports.sendEmail = function (recipient, message, subject) {
                 },
             },
         })
-        .promise()  // this line is amazons ways of promisifying this function
+        .promise() // this line is amazons ways of promisifying this function
         .then(() => console.log("it worked!"))
         .catch((err) => console.log(err));
 };

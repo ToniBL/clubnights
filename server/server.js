@@ -107,6 +107,22 @@ app.post("/login", (req, res) => {
         });
 });
 
+app.post("/resetpassword", async (req, res) => {
+    console.log("req.body:", req.body);
+    try {
+        const result = await db.checkEmail(req.body.email);
+        console.log("result checkEmail:", result);
+        if (result === req.body) {
+            const secretCode = cryptoRandomString({
+                length: 6,
+            });
+            console.log(secretCode);
+        }
+    } catch (err) {
+        res.json({ err: true });
+    }
+});
+
 // app.post("/some-route", (req, res) => {
 //     sendEmail(
 //         "mailadress",

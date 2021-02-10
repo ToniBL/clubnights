@@ -58,7 +58,9 @@ export default class Login extends React.Component {
                     placeholder="password"
                 ></input>
                 <button onClick={() => this.clickLogin()}>Login</button>
-                <Link to="/">Click here to register!</Link>
+                Click<Link to="/"> here </Link>to register! Click
+                <Link to="/resetpassword"> here </Link>if you forgot your
+                password!
             </div>
         );
     }

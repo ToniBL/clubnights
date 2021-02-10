@@ -17,3 +17,9 @@ module.exports.loginUser = (email) => {
     const params = [email];
     return db.query(q, params);
 };
+
+module.exports.checkEmail = (email) => {
+    const q = `SELECT email FROM users WHERE email = $1`;
+    const params = [email];
+    return db.query(q, params);
+};
