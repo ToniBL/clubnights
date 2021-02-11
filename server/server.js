@@ -114,48 +114,65 @@ app.post("/resetpassword", (req, res) => {
             console.log("result.rows[0].email:", result.rows[0].email);
 
             if (result.rows[0].email == req.body.email) {
-                res.json({ emailckecked: true });
+                //  res.json({ emailckecked: true });
                 console.log("mailchecked");
             }
             //else {
             //     res.json({ checkmailfailed: true });
             // }
+            const email = req.body.email;
             const secretCode = cryptoRandomString({
                 length: 6,
             });
             console.log(secretCode);
-            db.saveCode(req.body.email, secretCode)
-                .console.log("saving code")
+            db.saveCode(email, secretCode)
+                // .console.log("saving code")
                 .then(
                     sendEmail(
-                        "Toni BL <knotty.wok@spicedling.email> ",
-                        "Toni BL <knotty.wok@spicedling.email> ",
-                        "Here is your Code to reset the password: ${secretCode}"
+                        email,
+                        `Please use this code to reset your password ${secretCode}`,
+                        "Reset code for your xy account"
                     )
                 )
                 .then(res.json({ emailsent: true }))
                 .catch((err) => {
-                    console.log("err in saveCode");
+                    console.log("err in saveCode:", err);
                     res.json({ err: true });
                 });
         })
         .catch((err) => {
-            console.log("err in checkMail");
+            console.log("err in checkMail:", err);
             res.json({ err: true });
         });
 });
 
-// app.post("/some-route", (req, res) => {
-//     sendEmail(
-//         "mailadress",
-//         "code",
-//         "message"
-//     )
-//     .then(() =>
-//     console.log("yay")
-// }). catch
-
-// })
+app.post("/updatepassword", (req, res) => {
+    console.log("update PW req.body:", req.body);
+    db.checkCode(req.body.email)
+        .then((result) => {
+            console.log("result.rows[0]:", result.rows[0].code);
+            const { code } = result.rows[0];
+            if (req.body.code === code) {
+                console.log("same code!");
+                hash(req.body.newPw)
+                    .then((hashedPw) => {
+                        db.changePw(hashedPw, req.body.email);
+                        console.log("hashedPw", hashedPw);
+                    })
+                    .then(res.json({ resetPw: true }))
+                    .catch((err) => {
+                        console.log("err in changePW:", err);
+                    });
+            } else {
+                console.log("not same code!");
+                res.json({ resetPw: false });
+            }
+        })
+        .catch((err) => {
+            console.log("err in checkCode:", err);
+            res.json({ err: true });
+        });
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

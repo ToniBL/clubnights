@@ -31,13 +31,14 @@ module.exports.saveCode = (email, code) => {
     return db.query(q, params);
 };
 
-module.exports.checkCode = () => {
-    const q = `SELECT FROM reset_codes WHERE CURRENT TIMESTAMP - timestamp < INTERVAL "10 minutes"`;
-    return db.query(q);
+module.exports.checkCode = (email) => {
+    const q = `SELECT code FROM reset_codes WHERE CURRENT_TIMESTAMP - timestamp < INTERVAL '10 minutes'AND email = $1 ORDER BY id DESC`;
+    const params = [email];
+    return db.query(q, params);
 };
 
 module.exports.changePw = (password, email) => {
-    const q = `UPDATE in users SET password0$! WHERE email=$"`;
+    const q = `UPDATE in users SET password = $1 WHERE email = $2"`;
     const params = [password, email];
     return db.query(q, params);
 };

@@ -7,6 +7,7 @@ export default class ResetPassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            newPw: "",
             email: "",
             code: "",
             renderView: 1,
@@ -21,15 +22,34 @@ export default class ResetPassword extends React.Component {
         // console.log(this.state);
     }
 
-    clickReset() {
+    checkOldMail() {
         console.log("submit clicked");
-        axios.post("/resetpassword", this.state).then((resp) => {
-            console.log("resp.data from server:", resp.data);
-            if (resp.data.err) {
+        axios
+            .post("/resetpassword", this.state)
+            .then((resp) => {
+                console.log("resp.data from server:", resp.data);
+                if (resp.data.err) {
+                    return this.setState({ err: true });
+                } else {
+                    return this.setState({
+                        renderView: 2,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log("err in checkOldMail:", err);
+            });
+    }
+
+    updatePw() {
+        console.log("reset PW clicked");
+        axios.post("/updatepassword", this.state).then((resp) => {
+            console.log("resp.data from server update PW:", resp.data);
+            if (resp.data.err || !resp.data.resetPw) {
                 return this.setState({ err: true });
             } else {
                 return this.setState({
-                    renderView: 2,
+                    renderView: 3,
                 });
             }
         });
@@ -51,18 +71,26 @@ export default class ResetPassword extends React.Component {
                         type="email"
                         name="email"
                     />
-                    <button onClick={() => this.clickReset()}>Submit</button>
+                    <button onClick={() => this.checkOldMail()}>Submit</button>
                 </div>
             );
         } else if (this.state.renderView === 2) {
             return (
                 <div>
                     <p>Please enter the code you received via email</p>
-                    <input name="code" />
+                    <input
+                        onChange={(e) => this.changeHandler(e)}
+                        name="code"
+                    />
                     <p>Please enter a new password</p>
-                    <input name="email" />
+                    <input
+                        onChange={(e) => this.changeHandler(e)}
+                        name="newPw"
+                    />
 
-                    <button>Submit</button>
+                    <button onClick={() => this.updatePw()}>
+                        reset password
+                    </button>
                 </div>
             );
         } else if (this.state.renderView === 3) {
