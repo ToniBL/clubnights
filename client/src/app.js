@@ -14,13 +14,16 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        // fetch current user's data from db -> check sessions.id, make db query in get request
+        //axios  fetch current user's data from db -> check sessions.id, make db query in get request
         // put returned data into state
+
 
         this.setState({});
     }
 
     render() {
+        console.log("this.state in app:", this.state);
+        if(!this.state.id) { return:null;}
         return (
             <div>
                 <Logo />

@@ -114,11 +114,30 @@ app.post("/resetpassword", (req, res) => {
             console.log("result.rows[0].email:", result.rows[0].email);
 
             if (result.rows[0].email == req.body.email) {
-                const secretCode = cryptoRandomString({
-                    length: 6,
-                });
-                console.log(secretCode);
+                res.json({ emailckecked: true });
+                console.log("mailchecked");
             }
+            //else {
+            //     res.json({ checkmailfailed: true });
+            // }
+            const secretCode = cryptoRandomString({
+                length: 6,
+            });
+            console.log(secretCode);
+            db.saveCode(req.body.email, secretCode)
+                .console.log("saving code")
+                .then(
+                    sendEmail(
+                        "Toni BL <knotty.wok@spicedling.email> ",
+                        "Toni BL <knotty.wok@spicedling.email> ",
+                        "Here is your Code to reset the password: ${secretCode}"
+                    )
+                )
+                .then(res.json({ emailsent: true }))
+                .catch((err) => {
+                    console.log("err in saveCode");
+                    res.json({ err: true });
+                });
         })
         .catch((err) => {
             console.log("err in checkMail");

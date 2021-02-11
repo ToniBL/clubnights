@@ -24,9 +24,20 @@ module.exports.checkEmail = (email) => {
     return db.query(q, params);
 };
 
-module.exports.setCode = (email, code) => {
+module.exports.saveCode = (email, code) => {
     const q = `INSERT into reset_codes (email, code) 
     VALUES ($1, $2)`;
     const params = [email, code];
+    return db.query(q, params);
+};
+
+module.exports.checkCode = () => {
+    const q = `SELECT FROM reset_codes WHERE CURRENT TIMESTAMP - timestamp < INTERVAL "10 minutes"`;
+    return db.query(q);
+};
+
+module.exports.changePw = (password, email) => {
+    const q = `UPDATE in users SET password0$! WHERE email=$"`;
+    const params = [password, email];
     return db.query(q, params);
 };
