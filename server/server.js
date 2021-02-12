@@ -174,6 +174,18 @@ app.post("/updatepassword", (req, res) => {
         });
 });
 
+app.get("/api/user", (req, res) => {
+    db.getUserData(req.sessions.userId)
+        .then((result) => {
+            console.log("result.rows api/user:", result.rows);
+            res.json({ getData: true });
+        })
+        .catch((err) => {
+            console.log("err in /api/user:", err);
+            res.json({ err: true });
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });

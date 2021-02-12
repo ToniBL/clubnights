@@ -42,3 +42,9 @@ module.exports.changePw = (password, email) => {
     const params = [password, email];
     return db.query(q, params);
 };
+
+module.exports.getUserData = (id) => {
+    const q = `SELECT * FROM users WHERE id=$1`;
+    const params = [id];
+    return db.query(q, params);
+};
