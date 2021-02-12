@@ -86,7 +86,8 @@ export default class Registration extends React.Component {
                     placeholder="password"
                 ></input>
                 <button onClick={() => this.handleClick()}>submit</button>
-                <Link to="/login">Click here to Log in!</Link>
+                Allready registered? <Link to="/login">Click here </Link> to Log
+                in!
             </div>
         );
     }

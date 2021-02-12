@@ -17,13 +17,12 @@ export default class App extends React.Component {
         //axios  fetch current user's data from db -> check sessions.id, make db query in get request
         // put returned data into state
 
-
         this.setState({});
     }
 
     render() {
         console.log("this.state in app:", this.state);
-        if(!this.state.id) { return:null;}
+        // if(!this.state.id) { return null;} -> have a blank page until data from server arrives
         return (
             <div>
                 <Logo />

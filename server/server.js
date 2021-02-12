@@ -80,7 +80,7 @@ app.post("/registration", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    console.log("req.body:", req.body);
+    console.log("req.body in login:", req.body);
     const password = req.body.password;
     db.loginUser(req.body.email)
         .then((result) => {

@@ -38,7 +38,7 @@ module.exports.checkCode = (email) => {
 };
 
 module.exports.changePw = (password, email) => {
-    const q = `UPDATE in users SET password = $1 WHERE email = $2"`;
+    const q = `UPDATE users SET password = $1 WHERE email = $2`;
     const params = [password, email];
     return db.query(q, params);
 };
