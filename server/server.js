@@ -9,6 +9,12 @@ const { SecretsManager } = require("aws-sdk");
 const csurf = require("csurf");
 const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
+const s3 = require("./s3");
+const { s3Url } = require("./config.json");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+
+// midleware to bring file in aws format
 
 let cookie_sec;
 if (process.env.cookie_secret) {
@@ -37,6 +43,23 @@ app.use(function (req, res, next) {
     next();
 });
 
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then((uid) => {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+// creates file in uploads folder
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 //Debug Middleware: what url get's requested and what cookies do we have?
 // app.use((req, res, next) => {
 //     console.log("req.url", req.url);
@@ -45,6 +68,7 @@ app.use(function (req, res, next) {
 //     next();
 // });
 
+//PART 1 REGISTRATION
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
         console.log("redirecting to '/'");
@@ -78,7 +102,7 @@ app.post("/registration", (req, res) => {
             res.json({ err: true });
         });
 });
-
+// PART 2 LOGIN
 app.post("/login", (req, res) => {
     console.log("req.body in login:", req.body);
     const password = req.body.password;
@@ -106,7 +130,7 @@ app.post("/login", (req, res) => {
             return res.json({ err: true });
         });
 });
-
+// PART 3 RESET PW
 app.post("/resetpassword", (req, res) => {
     console.log("req.body.email:", req.body.email);
     db.checkEmail(req.body.email)
@@ -174,16 +198,40 @@ app.post("/updatepassword", (req, res) => {
         });
 });
 
+// PART 4 IMG UPLOAD
+
 app.get("/api/user", (req, res) => {
-    db.getUserData(req.sessions.userId)
+    console.log("req.sessionID:", req.session.userId);
+    db.getUserData(req.session.userId)
         .then((result) => {
-            console.log("result.rows api/user:", result.rows);
-            res.json({ getData: true });
+            console.log("result api/user:", result);
+            res.json(result.rows[0]);
         })
         .catch((err) => {
             console.log("err in /api/user:", err);
             res.json({ err: true });
         });
+});
+
+app.post("/profilepic", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("req.body: ", req.body);
+    console.log("req.file: ", req.file);
+    if (req.file) {
+        // here sql insert
+        req.body.url = s3Url + req.file.filename;
+        db.imgToDb(req.body.url, req.session.userId).then((result) => {
+            console.log("imgToDb res.rows:", result.rows);
+            res.json({
+                rows: result.rows[0].profile_pi_url,
+                imgUpload: true,
+            }).catch((err) => {
+                console.log("err in imgToDb:", err);
+                res.json({ err: true });
+            });
+        });
+    } else {
+        res.json({ success: false });
+    }
 });
 
 app.get("*", function (req, res) {

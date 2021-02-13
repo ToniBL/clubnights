@@ -1,8 +1,8 @@
 import React from "react";
+import axios from "./axios";
 import Logo from "./logo";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
-import axios from "./axios";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -17,7 +17,7 @@ export default class App extends React.Component {
             profile_pic_url: "",
             uploaderVisible: false,
         };
-        this.toggleUploader = this.toggleUploader.bind;
+        this.toggleUploader = this.toggleUploader.bind(this);
     }
 
     componentDidMount() {
@@ -38,6 +38,19 @@ export default class App extends React.Component {
     // DidUpdate is called after DidMount, takes 2 arguments: prev.props & prev.state; inside method we perform conditional check: e.a. if(prevState.url !== this.state.url) {console.log("state changed")}
     //componentDidUpdate()
 
+    setProfilePicUrl(profilePicUrl) {
+        this.setState({
+            profile_pic_url: profilePicUrl,
+            uploaderVisible: false,
+        });
+    }
+
+    toggleUploader() {
+        this.setState({
+            uploaderVisible: !this.state.uploaderVisible,
+        });
+    }
+
     render() {
         console.log("this.state in app:", this.state);
         // if(!this.state.id) { return null;} -> have a blank page until data from server arrives
@@ -50,9 +63,11 @@ export default class App extends React.Component {
                     last={this.state.last}
                     profilePicUrl={this.state.profile_pic_url}
                     size="small"
-                    onClick={() => this.toggleUploader}
+                    toggleUploader={this.toggleUploader}
                 />
-                <Uploader />
+                {this.state.uploaderVisible && (
+                    <Uploader setProfilePicUrl={this.setProfilePicUrl} />
+                )}
             </div>
         );
     }
