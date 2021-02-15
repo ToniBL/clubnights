@@ -49,11 +49,12 @@ module.exports.getUserData = (id) => {
     return db.query(q, params);
 };
 
-module.exports.imgToDb = (id, profilePicUrl) => {
+module.exports.imgToDb = (profilePicUrl, id) => {
+    console.log(id, profilePicUrl);
     const q = `UPDATE users 
     SET profile_pic_url =$2 
     WHERE id=$1
-    RETURNING profilePicUrl`;
+    RETURNING profile_pic_url`;
     const params = [id, profilePicUrl];
     return db.query(q, params);
 };

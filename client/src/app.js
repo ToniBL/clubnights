@@ -19,6 +19,8 @@ export default class App extends React.Component {
             uploaderVisible: false,
         };
         this.toggleUploader = this.toggleUploader.bind(this);
+
+        this.setProfilePicUrl = this.setProfilePicUrl.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +29,7 @@ export default class App extends React.Component {
             .get("/api/user", this.state)
             .then((resp) => {
                 console.log("resp.data from /api/user:", resp.data);
-                this.setState(resp.data.rows);
+                this.setState({});
             })
             .catch((err) => {
                 console.log("err in axios api user:", err);
@@ -40,6 +42,7 @@ export default class App extends React.Component {
     //componentDidUpdate()
 
     setProfilePicUrl(profilePicUrl) {
+        console.log("profile URL SET ", profilePicUrl);
         this.setState({
             profile_pic_url: profilePicUrl,
             uploaderVisible: false,
@@ -53,7 +56,7 @@ export default class App extends React.Component {
     }
 
     render() {
-        console.log("this.state in app:", this.state);
+        // console.log("this.state in app:", this.state);
         // if(!this.state.id) { return null;} -> have a blank page until data from server arrives
         return (
             <div className="app">

@@ -223,18 +223,18 @@ app.post("/profilepic", uploader.single("file"), s3.upload, (req, res) => {
     if (req.file) {
         // here sql insert
         req.body.url = s3Url + req.file.filename;
-        db.imgToDb(req.body.url, req.session.userId).then((result) => {
-            console.log("imgToDb res.rows:", result.rows);
-            res.json({
-                rows: result.rows[0].profile_pi_url,
-                imgUpload: true,
-            }).catch((err) => {
-                console.log("err in imgToDb:", err);
-                res.json({ err: true });
+        db.imgToDb(req.body.url, req.session.userId)
+            .then((result) => {
+                console.log("imgToDb res.rows:", result.rows);
+                res.json({
+                    rows: result.rows[0].profile_pic_url,
+                    imgUpload: true,
+                });
+            })
+            .catch((err) => {
+                console.log("on server post profilepic:", err);
+                res.json({ success: false });
             });
-        });
-    } else {
-        res.json({ success: false });
     }
 });
 

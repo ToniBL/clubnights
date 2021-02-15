@@ -11,18 +11,24 @@ export default class Uploader extends React.Component {
             file: null,
             err: false,
         };
+        this.uploadPic = this.uploadPic.bind(this);
     }
 
+    // handleChange(e) {
+    //     console.log("e.target.value", e.target.value);
+    //     console.log("e.target.name", e.target.name); // shows input field according to name we choose for name in input
+    //     // this.setState is used to put/update state
+    //     this.setState(
+    //         {
+
+    //             [e.target.name]: e.target.value,
+    //         },
+    //         () => console.log("this.state after setState:", this.state)
+    //     );
+    // }
+
     handleChange(e) {
-        console.log("e.target.value", e.target.value);
-        console.log("e.target.name", e.target.name); // shows input field according to name we choose for name in input
-        // this.setState is used to put/update state
-        this.setState(
-            {
-                [e.target.name]: e.target.value,
-            },
-            () => console.log("this.state after setState:", this.state)
-        );
+        this.setState({ file: e.target.files[0] });
     }
 
     uploadPic() {
@@ -30,15 +36,16 @@ export default class Uploader extends React.Component {
         let formData = new FormData();
         formData.append("file", this.state.file);
         console.log("this.state.file:", formData);
+        var that = this;
         axios
             .post("/profilepic", formData)
             .then((resp) => {
-                console.log("uploader resp.data.rows:", resp.data.rows);
-                this.props.setProfilePicUrl(resp.data.rows);
+                console.log("uploader resp.data:", resp.data);
+                that.props.setProfilePicUrl(resp.data.rows);
             })
             .catch((err) => {
                 console.log("err in axios aploader:", err);
-                this.setState({ err: true });
+                that.setState({ err: true });
             });
     }
 
@@ -53,7 +60,7 @@ export default class Uploader extends React.Component {
                 />
 
                 <button
-                    className="pic-ipload"
+                    className="pic-upload"
                     onClick={(e) => this.uploadPic(e)}
                 >
                     Upload
