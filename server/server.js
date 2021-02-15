@@ -175,10 +175,10 @@ app.post("/resetpassword", (req, res) => {
 });
 
 app.post("/updatepassword", (req, res) => {
-    console.log("update PW req.body:", req.body);
+    //  console.log("update PW req.body:", req.body);
     db.checkCode(req.body.email)
         .then((result) => {
-            console.log("result.rows[0]:", result.rows[0].code);
+            // console.log("result.rows[0]:", result.rows[0].code);
             const { code } = result.rows[0];
             if (req.body.code === code) {
                 console.log("same code!");
@@ -205,7 +205,7 @@ app.post("/updatepassword", (req, res) => {
 // PART 4 IMG UPLOAD
 
 app.get("/api/user", (req, res) => {
-    console.log("req.sessionID:", req.session.userId);
+    // console.log("req.sessionID:", req.session.userId);
     db.getUserData(req.session.userId)
         .then((result) => {
             console.log("result api/user:", result);
@@ -218,14 +218,14 @@ app.get("/api/user", (req, res) => {
 });
 
 app.post("/profilepic", uploader.single("file"), s3.upload, (req, res) => {
-    console.log("req.body: ", req.body);
-    console.log("req.file: ", req.file);
+    // console.log("req.body: ", req.body);
+    // console.log("req.file: ", req.file);
     if (req.file) {
         // here sql insert
         req.body.url = s3Url + req.file.filename;
         db.imgToDb(req.body.url, req.session.userId)
             .then((result) => {
-                console.log("imgToDb res.rows:", result.rows);
+                // console.log("imgToDb res.rows:", result.rows);
                 res.json({
                     rows: result.rows[0].profile_pic_url,
                     imgUpload: true,
@@ -236,6 +236,24 @@ app.post("/profilepic", uploader.single("file"), s3.upload, (req, res) => {
                 res.json({ success: false });
             });
     }
+});
+
+// PART 5 UPLOAD & EDIT BIO
+
+app.post("/api/bio", (req, res) => {
+    console.log("req.body in post bio:", req.body);
+    db.bioToDb(req.session.userId, req.body.bio)
+        .then((result) => {
+            // console.log("imgToDb res.rows:", result.rows);
+            res.json({
+                rows: result.rows[0].bio,
+                bioUpload: true,
+            });
+        })
+        .catch((err) => {
+            console.log("err on server post bio:", err);
+            res.json({ success: false });
+        });
 });
 
 app.get("*", function (req, res) {

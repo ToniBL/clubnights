@@ -13,9 +13,11 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             first: "",
             last: "",
             profile_pic_url: "",
+            bio: "",
             uploaderVisible: false,
         };
         this.toggleUploader = this.toggleUploader.bind(this);
@@ -28,8 +30,14 @@ export default class App extends React.Component {
         axios
             .get("/api/user", this.state)
             .then((resp) => {
-                console.log("resp.data from /api/user:", resp.data);
-                this.setState({});
+                console.log("resp.data.rows from /api/user:", resp.data.rows);
+                this.setState({
+                    id: resp.data.id,
+                    first: resp.data.first,
+                    last: resp.data.last,
+                    profile_pic_url: resp.data.rows.profile_pic_url,
+                    bio: resp.data.rows.bio,
+                });
             })
             .catch((err) => {
                 console.log("err in axios api user:", err);
@@ -72,7 +80,15 @@ export default class App extends React.Component {
                 {this.state.uploaderVisible && (
                     <Uploader setProfilePicUrl={this.setProfilePicUrl} />
                 )}
-                {/* <Profile /> */}
+                <Profile
+                    id={this.state.id}
+                    first={this.state.first}
+                    last={this.state.last}
+                    profilePicUrl={this.state.profile_pic_url}
+                    size="small"
+                    bio={this.state.bio}
+                    toggleUploader={this.toggleUploader}
+                />
             </div>
         );
     }

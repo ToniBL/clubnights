@@ -17,3 +17,23 @@ body {
     height: 40%em;
     width: 50%;
 }
+
+.border-red {
+    border: solid red 2px;
+    margin: 4px;
+}
+
+.border-blue {
+    border: solid blue 2px;
+    margin: 4px;
+}
+
+.border-green {
+    border: solid green 2px;
+    margin: 4px;
+}
+
+.border-black {
+    border: solid black 2px;
+    margin: 4px;
+}

@@ -14,19 +14,6 @@ export default class Uploader extends React.Component {
         this.uploadPic = this.uploadPic.bind(this);
     }
 
-    // handleChange(e) {
-    //     console.log("e.target.value", e.target.value);
-    //     console.log("e.target.name", e.target.name); // shows input field according to name we choose for name in input
-    //     // this.setState is used to put/update state
-    //     this.setState(
-    //         {
-
-    //             [e.target.name]: e.target.value,
-    //         },
-    //         () => console.log("this.state after setState:", this.state)
-    //     );
-    // }
-
     handleChange(e) {
         this.setState({ file: e.target.files[0] });
     }

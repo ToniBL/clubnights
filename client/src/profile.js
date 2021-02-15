@@ -1,19 +1,20 @@
 import ProfilePic from "./profilepic";
 import Bioedit from "./bioedit";
 
-export default function Profile() {
+export default function Profile(props) {
+    console.log("props in profile:", props);
     return (
-        <div>
+        <div className="border-red">
             <h1>I am the profile component</h1>
             <ProfilePic
-                id={this.state.id}
-                first={this.state.first}
-                last={this.state.last}
-                profilePicUrl={this.state.profile_pic_url}
+                id={props.id}
+                first={props.first}
+                last={props.last}
+                profilePicUrl={props.profilePicUrl}
                 size="large"
-                toggleUploader={this.toggleUploader}
+                toggleUploader={props.toggleUploader}
             />
-            <Bioedit />
+            <Bioedit bio={props.bio} />
         </div>
     );
 }

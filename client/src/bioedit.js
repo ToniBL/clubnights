@@ -29,17 +29,38 @@ export default class Bioedit extends React.Component {
         );
     }
 
+    //toggle editMode here
+    toggleEditVisible() {
+        this.setState({
+            editVisible: !this.state.editVisible,
+        });
+    }
+
     uploadBio() {
         //axios similar to pic upload
+        console.log("this.state in upload BIO:", this.state);
+        axios
+            .post("/api/bio", this.state)
+            .then((resp) => {
+                console.log("uploadBio resp.data:", resp.data);
+                this.setState({
+                    bio: resp.data.bio,
+                    editVisible: false,
+                });
+            })
+            .catch((err) => {
+                console.log("err in axios upload bio:", err);
+                this.setState({ err: true });
+            });
     }
 
     render() {
         if (this.state.editMode) {
             return (
-                <div className="editbio">
+                <div className="bioedit border-blue">
                     <textarea
                         className="edit"
-                        name="edit"
+                        name="bio"
                         onChange={(e) => this.handleChange(e)}
                         //if there is a bio in db insert, else default
                         //
