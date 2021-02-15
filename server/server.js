@@ -102,10 +102,12 @@ app.post("/registration", (req, res) => {
             res.json({ err: true });
         });
 });
+
 // PART 2 LOGIN
 app.post("/login", (req, res) => {
     console.log("req.body in login:", req.body);
     const password = req.body.password;
+    console.log(password);
     db.loginUser(req.body.email)
         .then((result) => {
             let hashedPw = result.rows[0].password;
@@ -125,11 +127,13 @@ app.post("/login", (req, res) => {
                     res.json({ err: true });
                 });
         })
+
         .catch((err) => {
             console.log("err in loginUser:", err);
             return res.json({ err: true });
         });
 });
+
 // PART 3 RESET PW
 app.post("/resetpassword", (req, res) => {
     console.log("req.body.email:", req.body.email);

@@ -1,4 +1,3 @@
-<h1>This is the uploader</h1>;
 import React from "react";
 import axios from "./axios";
 

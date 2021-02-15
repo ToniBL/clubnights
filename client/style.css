@@ -1,8 +1,19 @@
 body {
-    background-color: rgb(202, 202, 245);
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+        "Lucida Sans", Arial, sans-serif;
+    background-color: rgb(240, 240, 243);
 }
 
 .profile-img {
     width: 200px;
     height: 200px;
+}
+
+.uploader {
+    margin: 2rem;
+    padding: 2rem;
+    background-color: rgba(245, 248, 248, 0.657);
+    border: 1px solid rgba(121, 147, 168, 0.589);
+    height: 40%em;
+    width: 50%;
 }

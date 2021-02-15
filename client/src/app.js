@@ -3,6 +3,7 @@ import axios from "./axios";
 import Logo from "./logo";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
+import Profile from "./profile";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -68,6 +69,7 @@ export default class App extends React.Component {
                 {this.state.uploaderVisible && (
                     <Uploader setProfilePicUrl={this.setProfilePicUrl} />
                 )}
+                {/* <Profile /> */}
             </div>
         );
     }
