@@ -10,10 +10,10 @@ export default class Bioedit extends React.Component {
             bio: this.props.bio,
         };
 
-        this.editMode = this.editMode.bind(this);
+        this.toggleEditMode = this.toggleEditMode.bind(this);
     }
 
-    editMode() {
+    toggleEditMode() {
         this.setState({ editVisible: !this.state.editVisible });
     }
 
@@ -27,13 +27,6 @@ export default class Bioedit extends React.Component {
             },
             () => console.log("this.state after setState:", this.state)
         );
-    }
-
-    //toggle editMode here
-    toggleEditVisible() {
-        this.setState({
-            editVisible: !this.state.editVisible,
-        });
     }
 
     uploadBio() {
@@ -55,9 +48,9 @@ export default class Bioedit extends React.Component {
     }
 
     render() {
-        if (this.state.editMode) {
+        if (this.state.editVisible) {
             return (
-                <div className="bioedit border-blue">
+                <div className="bioedit">
                     <textarea
                         className="edit"
                         name="bio"
@@ -84,8 +77,8 @@ export default class Bioedit extends React.Component {
         return (
             <div className="textbio">
                 <p className="text">{this.state.bio}</p>
-                <button className="bio" onClick={() => this.editMode()}>
-                    Save
+                <button className="bio" onClick={() => this.toggleEditMode()}>
+                    {this.state.bio ? "Edit Bio" : "Add Bio"}
                 </button>
             </div>
         );

@@ -30,13 +30,14 @@ export default class App extends React.Component {
         axios
             .get("/api/user", this.state)
             .then((resp) => {
-                console.log("resp.data.rows from /api/user:", resp.data.rows);
+                console.log("resp.data from /api/user:", resp.data);
+
                 this.setState({
                     id: resp.data.id,
                     first: resp.data.first,
                     last: resp.data.last,
-                    profile_pic_url: resp.data.rows.profile_pic_url,
-                    bio: resp.data.rows.bio,
+                    profile_pic_url: resp.data.profile_pic_url,
+                    bio: resp.data.bio,
                 });
             })
             .catch((err) => {
