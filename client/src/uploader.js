@@ -19,7 +19,7 @@ export default class Uploader extends React.Component {
     }
 
     uploadPic() {
-        //  e.preventDefault();
+        //e.preventDefault();
         let formData = new FormData();
         formData.append("file", this.state.file);
         console.log("this.state.file:", formData);
@@ -39,6 +39,9 @@ export default class Uploader extends React.Component {
     render() {
         return (
             <div className="uploader">
+                {this.state.err && (
+                    <p> ERROR: Something went wrong please try again</p>
+                )}
                 <input
                     type="file"
                     name="file"

@@ -7,10 +7,16 @@ export default class Bioedit extends React.Component {
         this.state = {
             err: false,
             editVisible: false,
+            first: this.props.first,
+            last: this.props.last,
             bio: this.props.bio,
         };
 
         this.toggleEditMode = this.toggleEditMode.bind(this);
+    }
+
+    componendDidMount() {
+        console.log("bioEdit mounted props:", this.props);
     }
 
     toggleEditMode() {
@@ -29,6 +35,7 @@ export default class Bioedit extends React.Component {
         );
     }
 
+    // in setState nicht bio setzen, das passiert in setBio function
     uploadBio() {
         //axios similar to pic upload
         console.log("this.state in upload BIO:", this.state);
@@ -37,9 +44,9 @@ export default class Bioedit extends React.Component {
             .then((resp) => {
                 console.log("uploadBio resp.data:", resp.data);
                 this.setState({
-                    bio: resp.data.bio,
                     editVisible: false,
                 });
+                this.props.setBio(resp.data.bio);
             })
             .catch((err) => {
                 console.log("err in axios upload bio:", err);
@@ -49,8 +56,12 @@ export default class Bioedit extends React.Component {
 
     render() {
         if (this.state.editVisible) {
+            console.log("this State in render bioedit:", this.state);
             return (
                 <div className="bioedit">
+                    {this.state.err && (
+                        <p> ERROR: Something went wrong please try again</p>
+                    )}
                     <textarea
                         className="edit"
                         name="bio"
@@ -58,12 +69,11 @@ export default class Bioedit extends React.Component {
                         //if there is a bio in db insert, else default
                         //
                         defaultValue={
-                            this.state.bio
-                                ? this.state.bio
+                            this.props.bio
+                                ? this.props.bio
                                 : "Enter your bio here"
                         }
                     />
-
                     <button
                         className="bio-upload"
                         onClick={(e) => this.uploadBio(e)}
@@ -73,12 +83,15 @@ export default class Bioedit extends React.Component {
                 </div>
             );
         }
-
         return (
+            // display mode: textarea hidden
             <div className="textbio">
-                <p className="text">{this.state.bio}</p>
+                {this.state.err && (
+                    <p> ERROR: Something went wrong please try again</p>
+                )}
+                <p className="text">{this.props.bio}</p>
                 <button className="bio" onClick={() => this.toggleEditMode()}>
-                    {this.state.bio ? "Edit Bio" : "Add Bio"}
+                    {this.props.bio ? "Edit Bio" : "Add Bio"}
                 </button>
             </div>
         );

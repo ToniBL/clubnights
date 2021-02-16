@@ -17,12 +17,14 @@ export default class App extends React.Component {
             first: "",
             last: "",
             profile_pic_url: "",
-            bio: "",
+            draftBio: "",
             uploaderVisible: false,
         };
         this.toggleUploader = this.toggleUploader.bind(this);
 
         this.setProfilePicUrl = this.setProfilePicUrl.bind(this);
+        // function that needs to be passed as props to bioetid, so bioedit can call it
+        this.setBio = this.setBio.bind(this);
     }
 
     componentDidMount() {
@@ -64,6 +66,10 @@ export default class App extends React.Component {
         });
     }
 
+    setBio(bio) {
+        console.log("bio set in app:", bio);
+        this.setState({ bio: bio });
+    }
     render() {
         // console.log("this.state in app:", this.state);
         // if(!this.state.id) { return null;} -> have a blank page until data from server arrives
@@ -89,6 +95,7 @@ export default class App extends React.Component {
                     size="small"
                     bio={this.state.bio}
                     toggleUploader={this.toggleUploader}
+                    setBio={this.setBio}
                 />
             </div>
         );
