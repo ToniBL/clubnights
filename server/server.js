@@ -208,7 +208,7 @@ app.get("/api/user", (req, res) => {
     // console.log("req.sessionID:", req.session.userId);
     db.getUserData(req.session.userId)
         .then((result) => {
-            console.log("result api/user:", result);
+            // console.log("result api/user:", result);
             res.json(result.rows[0]);
         })
         .catch((err) => {
@@ -259,14 +259,15 @@ app.post("/api/bio", (req, res) => {
 // PART 6 ROUTING
 
 app.get("/api/otheruser/:id", (req, res) => {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
+    console.log(typeof id);
     console.log("req.params.id:", req.params.id);
     console.log("req.session.userId:", req.session.userId);
     db.getUserData(id)
         .then((result) => {
-            console.log("result in otheruser:", result);
+            console.log("result in otheruser:", result.rows.length);
             res.json({
-                rows: result.rows[0],
+                rows: result.rows,
                 cookie: req.session.userId,
                 success: true,
             });

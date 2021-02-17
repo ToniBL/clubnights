@@ -22,7 +22,7 @@ export default class OtherProfile extends React.Component {
         console.log("this.props.match: ", this.props.match);
         console.log("id: ", this.props.match.params.id);
         axios
-            .get(`/api/otheruser/${this.props.match.params.id},`)
+            .get(`/api/otheruser/${this.props.match.params.id}`)
             .then((resp) => {
                 console.log("resp. in axios otherprofile:", resp);
                 this.setState({
