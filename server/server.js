@@ -60,13 +60,13 @@ const uploader = multer({
         fileSize: 2097152,
     },
 });
-//Debug Middleware: what url get's requested and what cookies do we have?
-// app.use((req, res, next) => {
-//     console.log("req.url", req.url);
-//     console.log("req.session:", req.session);
+// Debug Middleware: what url get's requested and what cookies do we have?
+app.use((req, res, next) => {
+    console.log("req.url", req.url);
+    console.log("req.session:", req.session);
 
-//     next();
-// });
+    next();
+});
 
 //PART 1 REGISTRATION
 app.get("/welcome", (req, res) => {
@@ -83,7 +83,7 @@ app.get("/welcome", (req, res) => {
 app.post("/registration", (req, res) => {
     hash(req.body.password)
         .then((hashedPw) => {
-            console.log("hashedPW in register:", hashedPw);
+            //   console.log("hashedPW in register:", hashedPw);
             db.registerUser(
                 req.body.first,
                 req.body.last,
@@ -105,9 +105,9 @@ app.post("/registration", (req, res) => {
 
 // PART 2 LOGIN
 app.post("/login", (req, res) => {
-    console.log("req.body in login:", req.body);
+    // console.log("req.body in login:", req.body);
     const password = req.body.password;
-    console.log(password);
+    //  console.log(password);
     db.loginUser(req.body.email)
         .then((result) => {
             let hashedPw = result.rows[0].password;
@@ -136,7 +136,7 @@ app.post("/login", (req, res) => {
 
 // PART 3 RESET PW
 app.post("/resetpassword", (req, res) => {
-    console.log("req.body.email:", req.body.email);
+    //  console.log("req.body.email:", req.body.email);
     db.checkEmail(req.body.email)
         .then((result) => {
             console.log("result.rows[0].email:", result.rows[0].email);
@@ -241,7 +241,7 @@ app.post("/profilepic", uploader.single("file"), s3.upload, (req, res) => {
 // PART 5 UPLOAD & EDIT BIO
 
 app.post("/api/bio", (req, res) => {
-    console.log("req.body in post bio:", req.body);
+    //   console.log("req.body in post bio:", req.body);
     db.bioToDb(req.session.userId, req.body.bio)
         .then((result) => {
             // console.log("imgToDb res.rows:", result.rows);
@@ -254,6 +254,29 @@ app.post("/api/bio", (req, res) => {
             console.log("err on server post bio:", err);
             res.json({ success: false });
         });
+});
+
+// PART 6 ROUTING
+
+app.get("api/otheruser/:id", (req, res) => {
+    const id = req.params.id;
+    console.log("id in otherusers id:", id);
+    console.log("req.session.userId:", req.session.userId);
+    db.getUserData(req.session.userId)
+        .then((result) => {
+            console.log("result in otheruser:", result);
+            res.json({
+                rows: result.rows[0],
+                cookie: req.session.userId,
+                success: true,
+            });
+        })
+        .catch((err) => {
+            console.log("err in user:id", err);
+            res.json({ err: true });
+        });
+
+    //handle request for non existing ids: conditional necessary?
 });
 
 app.get("*", function (req, res) {
