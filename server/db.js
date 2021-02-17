@@ -64,3 +64,8 @@ module.exports.bioToDb = (id, bio) => {
     const params = [id, bio];
     return db.query(q, params);
 };
+
+module.exports.lastUser = () => {
+    const q = `SELECT * FROM users ORDER BY id DESC LIMIT 3`;
+    return db.query(q);
+};

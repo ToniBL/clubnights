@@ -9,7 +9,7 @@ export default class OtherProfile extends React.Component {
             id: this.props.id,
             first: this.props.first,
             last: this.props.last,
-            profilePicUrl: this.props.profilePicUrl,
+            profilePicUrl: this.props.profile_pic_url,
             bio: this.props.bio,
             err: false,
         };
@@ -26,11 +26,11 @@ export default class OtherProfile extends React.Component {
             .then((resp) => {
                 console.log("resp. in axios otherprofile:", resp);
                 this.setState({
-                    id: resp.data.rows.id,
-                    first: resp.data.rows.first,
-                    last: resp.data.rows.last,
-                    profilePicUrl: resp.data.rows.profilePicUrl,
-                    bio: resp.data.rows.bio,
+                    id: resp.data.rows[0].id,
+                    first: resp.data.rows[0].first,
+                    last: resp.data.rows[0].last,
+                    profilePicUrl: resp.data.rows[0].profilePicUrl,
+                    bio: resp.data.rows[0].bio,
                 });
                 if (this.props.match.params.id == resp.data.rows.cookies) {
                     this.props.history.push("/");
@@ -46,21 +46,23 @@ export default class OtherProfile extends React.Component {
     render() {
         console.log("this.state in otherprofile:", this.state);
         // console.log("this.props in other profile:" this.props)
-        //  if (this.state.id) {
+        if (!this.state.id) {
+            return <p> ERROR: No such user</p>;
+        }
+
+        // let imgUrl = this.state.profile_pic_url || "/defaultuser.png";
         return (
             <div className="otherProfile">
                 <img
-                    src={this.state.profilePicUrl}
+                    src={`${this.state.profile_pic_url}`}
                     alt={`${this.state.first} ${this.state.last}`}
                 />
 
                 <h3>
-                    {this.state.first}
-                    {this.state.last}
+                    {this.state.first} {this.state.last}
                 </h3>
                 <p>{this.state.bio}</p>
             </div>
         );
-        // }
     }
 }

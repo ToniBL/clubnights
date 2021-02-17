@@ -276,8 +276,19 @@ app.get("/api/otheruser/:id", (req, res) => {
             console.log("err in user:id", err);
             res.json({ err: true });
         });
+});
 
-    //handle request for non existing ids: conditional necessary?
+// PART 7 FIND PEOPLE
+
+app.get("/newuser", (req, res) => {
+    db.lastUser()
+        .then((result) => {
+            console.log("result.rows in newUser:", result.rows);
+            res.json({ rows: result.rows });
+        })
+        .catch((err) => {
+            console.log("err in newuser:", err);
+        });
 });
 
 app.get("*", function (req, res) {
