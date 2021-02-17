@@ -22,7 +22,7 @@ export default class OtherProfile extends React.Component {
         console.log("this.props.match: ", this.props.match);
         console.log("id: ", this.props.match.params.id);
         axios
-            .get(`/otheruser/${this.props.match.params.id}`)
+            .get(`/api/otheruser/${this.props.match.params.id},`)
             .then((resp) => {
                 console.log("resp. in axios otherprofile:", resp);
                 this.setState({
@@ -44,15 +44,23 @@ export default class OtherProfile extends React.Component {
     }
 
     render() {
+        console.log("this.state in otherprofile:", this.state);
+        // console.log("this.props in other profile:" this.props)
+        //  if (this.state.id) {
         return (
-            <div>
-                <h1>I am the other profile!!!</h1>
-                <h2>
-                    I will display the other user's information including their
-                    profile picture and bio but NOONE will be able to edit
-                    information in here! cause it's not your profile to edit!
-                </h2>
+            <div className="otherProfile">
+                <img
+                    src={this.state.profilePicUrl}
+                    alt={`${this.state.first} ${this.state.last}`}
+                />
+
+                <h3>
+                    {this.state.first}
+                    {this.state.last}
+                </h3>
+                <p>{this.state.bio}</p>
             </div>
         );
+        // }
     }
 }

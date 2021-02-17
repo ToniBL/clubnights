@@ -1,6 +1,6 @@
 // function component
 export default function ProfilePic(props) {
-    console.log("props in profilepic", props);
+    //  console.log("props in profilepic", props);
     return (
         <div className="Profile-pic border-blue">
             <img

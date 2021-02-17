@@ -258,11 +258,11 @@ app.post("/api/bio", (req, res) => {
 
 // PART 6 ROUTING
 
-app.get("api/otheruser/:id", (req, res) => {
+app.get("/api/otheruser/:id", (req, res) => {
     const id = req.params.id;
-    console.log("id in otherusers id:", id);
+    console.log("req.params.id:", req.params.id);
     console.log("req.session.userId:", req.session.userId);
-    db.getUserData(req.session.userId)
+    db.getUserData(id)
         .then((result) => {
             console.log("result in otheruser:", result);
             res.json({
