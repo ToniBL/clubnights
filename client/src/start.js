@@ -1,12 +1,30 @@
+import React from "react";
 import ReactDOM from "react-dom";
+
+import { createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import reduxPromise from "redux-promise"; //allows async and await within actions
+import { composeWithDevTools } from "redux-devtools-extension";
+
 import Welcome from "./welcome";
 import App from "./app";
 
+import { reducer } from "./reducer";
+
+const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(reduxPromise))
+);
+
 let elem;
-if (location.pathname === "/welcome") {
+if (location.pathname == "/welcome") {
     elem = <Welcome />;
 } else {
-    elem = <App />;
+    elem = (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
 }
 //console.log(elem);
 ReactDOM.render(elem, document.querySelector("main"));

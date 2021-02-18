@@ -2,28 +2,63 @@ import { useState, useEffect } from "react";
 import axios from "./axios";
 
 export default function FindPeople() {
-    const [newUser, setNewUser] = useState([]);
-    const [userInput, setUserInput] = useState("");
+    // searchUser to monitor the input field
+    // user for results array
+    // first param in hooks is data in state (we want to update) , second param is a function to manipulate data in state
+    const [users, setUsers] = useState([]);
     const [searchUser, setSearchUser] = useState();
-}
 
-useEffect(() => {
-    console.log("findPeople mounting");
-    axios
-        .get("/newuser")
-        .then((resp) => {
-            console.log("resp.data:", resp.data);
-            setNewUser(resp.data.rows);
-        })
-        .catch((err) => console.log("err in axios newuser:", err));
-}, []); //empty array to run useEffect only once
+    useEffect(() => {
+        console.log("findPeople mounting");
+        let abort = false;
 
-// add second query for user by name 
+        (async () => {
+            try {
+                const { data } = await axios.get(`/api/users/${searchUser}`);
+                console.log("data in axios findpeople:", data);
+                if (!abort) {
+                    setUsers(data);
+                }
+            } catch (err) {
+                console.log("err in setSearchUser:", err);
+            }
+        })();
 
-render () {
+        //cleanup-function, runs before very re-render
+        return () => {
+            console.log("searchUser in returned function:", searchUser);
+            abort = true;
+        };
+    }, [searchUser]);
+
+    //empty array to run useEffect only once
+
+    // add second query for user by name
+
     return (
+        <div className="findPeople">
+            <h2>Here are our latest members:</h2>
+            <input
+                name="findPeople"
+                type="text"
+                placeholder="find friends"
+                onChange={(e) => setSearchUser(e.target.value)}
+                autoComplete="off"
+            />
+            {users.map((elem) => {
+                return (
+                    <div key={elem.id}>
+                        <img
+                            src={elem.profile_pic_url}
+                            alt={`${elem.first} ${elem.last}`}
+                        />
 
-        // need to map results here 
-
-    )
+                        <p>
+                            {elem.first} {elem.last}
+                        </p>
+                    </div>
+                );
+            })}
+        </div>
+    );
 }

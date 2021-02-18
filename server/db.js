@@ -69,3 +69,10 @@ module.exports.lastUser = () => {
     const q = `SELECT * FROM users ORDER BY id DESC LIMIT 3`;
     return db.query(q);
 };
+
+module.exports.searchUser = (inputVal) => {
+    return db.query(
+        `SELECT * FROM users WHERE first ILIKE $1 OR last ILIKE $1 LIMIT 10;`,
+        [inputVal + "%"]
+    );
+};

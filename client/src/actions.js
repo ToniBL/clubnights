@@ -1,21 +1,15 @@
+// this will contain all of our action creators
+// actionscreator = function that resturns obj
+
 import axios from "axios";
 
-export async function receiveUsers() {
-    const { data } = await axios.get("/users");
-    return {
-        type: "RECEIVE_USERS",
-        users: data.users,
-    };
-}
+// import axios from "./axios"
 
-export async function makeHot(id) {
-    const { data } = await axios.prototype(`/hot/${id}`);
-    // console.log(data);
-    if (data.success) {
-        return {
-            // the entire return obj is the action
-            type: "MAKE_HOT",
-            charakterId: id,
-        };
-    }
+export async function myfirstactioncreator() {
+    // we can OPTIONALLY talk to the server here ...
+    const { data = await axios.get("/someroute") };
+    return {
+        type: "UPDATE_STATE_SOMEHOW",
+        data: data.user.id,
+    };
 }

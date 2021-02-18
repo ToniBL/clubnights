@@ -61,12 +61,12 @@ const uploader = multer({
     },
 });
 // Debug Middleware: what url get's requested and what cookies do we have?
-app.use((req, res, next) => {
-    console.log("req.url", req.url);
-    console.log("req.session:", req.session);
+// app.use((req, res, next) => {
+//     console.log("req.url", req.url);
+//     console.log("req.session:", req.session);
 
-    next();
-});
+//     next();
+// });
 
 //PART 1 REGISTRATION
 app.get("/welcome", (req, res) => {
@@ -280,15 +280,23 @@ app.get("/api/otheruser/:id", (req, res) => {
 
 // PART 7 FIND PEOPLE
 
-app.get("/newuser", (req, res) => {
-    db.lastUser()
-        .then((result) => {
-            console.log("result.rows in newUser:", result.rows);
-            res.json({ rows: result.rows });
-        })
-        .catch((err) => {
-            console.log("err in newuser:", err);
-        });
+app.get("/api/users/:inputVal?", async (req, res) => {
+    console.log("req.body.params:", req.body.params);
+    let { inputVal } = req.params;
+    try {
+        if (!inputVal) {
+            const { rows } = await db.lastUser();
+            console.log("this are the 3 recent user:", rows);
+            res.json(rows);
+        } else {
+            const { rows } = await db.searchUser(inputVal);
+            console.log("Seachrresults, rows:", rows);
+            res.json(rows);
+        }
+    } catch (err) {
+        console.log("err in newuser:", err);
+        res.json({ err: true });
+    }
 });
 
 app.get("*", function (req, res) {
