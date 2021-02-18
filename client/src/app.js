@@ -6,6 +6,7 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./otherprofile";
+import FindPeople from "./findpeople";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -107,6 +108,16 @@ export default class App extends React.Component {
                         )}
                     />
                     <Route path="/user/:id" component={OtherProfile} />
+                    <Route
+                        path="/users"
+                        render={(props) => (
+                            <FindPeople
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
                 </BrowserRouter>
             </div>
         );
