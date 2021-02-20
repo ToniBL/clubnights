@@ -1,5 +1,12 @@
 const express = require("express");
 const app = express();
+// we need a native nodeserver for initial handshake
+//app get's "wrapped" in server / if you want to deplay on heroku you need to also allowRequest
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 const compression = require("compression");
 const path = require("path");
 const db = require("./db");
@@ -60,13 +67,13 @@ const uploader = multer({
         fileSize: 2097152,
     },
 });
-// Debug Middleware: what url get's requested and what cookies do we have?
-// app.use((req, res, next) => {
-//     console.log("req.url", req.url);
-//     console.log("req.session:", req.session);
+//Debug Middleware: what url get's requested and what cookies do we have?
+app.use((req, res, next) => {
+    console.log("req.url", req.url);
+    console.log("req.session:", req.session);
 
-//     next();
-// });
+    next();
+});
 
 //PART 1 REGISTRATION
 app.get("/welcome", (req, res) => {
@@ -265,7 +272,7 @@ app.get("/api/otheruser/:id", (req, res) => {
     console.log("req.session.userId:", req.session.userId);
     db.getUserData(id)
         .then((result) => {
-            console.log("result in otheruser:", result.rows.length);
+            //  console.log("result in otheruser:", result.rows.length);
             res.json({
                 rows: result.rows,
                 cookie: req.session.userId,
@@ -281,7 +288,7 @@ app.get("/api/otheruser/:id", (req, res) => {
 // PART 7 FIND PEOPLE
 
 app.get("/api/users/:inputVal?", async (req, res) => {
-    console.log("req.body.params:", req.body.params);
+    // console.log("req.body.params:", req.body.params);
     let { inputVal } = req.params;
     try {
         if (!inputVal) {
@@ -299,10 +306,112 @@ app.get("/api/users/:inputVal?", async (req, res) => {
     }
 });
 
+//PART 8 FRIENDBUTTON
+const getFriendshipStatus = async (otherUserId, loggedInUserId) => {
+    let response = {};
+    const { rows } = await db.friendshipStatus(otherUserId, loggedInUserId);
+    console.log("rows:", rows);
+    if (!rows.length) {
+        response = { buttonText: "Add Friend", action: "add" };
+    } else if (rows[0].recipient_id == loggedInUserId) {
+        response = { buttonText: "Accept", action: "accept" };
+    } else if (rows[0].recipient_id == otherUserId) {
+        response = { buttonText: "Cancel", action: "cancel" };
+    } else {
+        response = { buttonText: "End Friendship", action: "end" };
+    }
+    return response;
+};
+
+app.get(`/friendstatus/:id`, async (req, res) => {
+    console.log("req.body.params:", req.params);
+    const otherUserId = req.params.id;
+    const loggedInUserId = req.session.userId;
+
+    try {
+        const status = await getFriendshipStatus(otherUserId, loggedInUserId);
+        console.log("status:", status);
+        res.json(status);
+    } catch (err) {
+        console.log("err get in friendstatus:", err);
+        res.json({ err: true });
+    }
+});
+
+app.post(`/friendstatus/:id`, async (req, res) => {
+    const loggedInUserId = req.session.userId;
+    console.log("req:", req.body);
+    const otherUserId = req.params.id;
+    const { action } = req.body;
+    try {
+        if (action === "add") {
+            await db.friendRequest(loggedInUserId, otherUserId);
+            const status = await getFriendshipStatus(
+                otherUserId,
+                loggedInUserId
+            );
+            console.log("status:", status);
+            res.json(status);
+        } else if (action === "accept") {
+            await db.acceptRequest(loggedInUserId, otherUserId);
+            const status = await getFriendshipStatus(
+                otherUserId,
+                loggedInUserId
+            );
+            console.log("status:", status);
+            res.json(status);
+        } else {
+            await db.cancelRequest(loggedInUserId, otherUserId);
+            const status = await getFriendshipStatus(
+                otherUserId,
+                loggedInUserId
+            );
+            console.log("status:", status);
+            res.json(status);
+        }
+    } catch (err) {
+        console.log("err in post friendstatus:", err);
+        res.json({ err: true });
+    }
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+// we changed app to server to set up socket. app got "wrapped" in server
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+//obj that is passed to callback (Socket) represents the network connection
+// connection is a eventlistener, so is disconnect
+// every connection to the server from every browser has their own socket.id
+
+io.on("connection", (socket) => {
+    console.log(socket);
+    console.log(`socket with id: ${socket.id} has connected`);
+
+    // sends a message to it's own socket
+    socket.emit("hello", {
+        cohrt: "adobo",
+    });
+
+    // sends a message to ALL connected sockets
+    io.emit("hello", {
+        cohort: "adoboS",
+    });
+    //sends a messge to ALl soccets EXEPT your own
+    socket.broadcast.emit("hello", {
+        cohort: "adobo",
+    });
+
+    //io.sockets = obj of ALL the sockets / sockets lives on that
+    io.sockets.sockets.get(socket.id).emit("hello", {
+        cohort: "adobo",
+    });
+
+    socket.on("disconnect", () => {
+        console.log(`socket with id: ${socket.id} just disconnected`);
+    });
 });

@@ -3,7 +3,7 @@ import axios from "./axios";
 import { Link } from "react-router-dom";
 
 export default function FindPeople(props) {
-    console.log("props in Findpeople:", props);
+    //console.log("props in Findpeople:", props);
     // searchUser to monitor the input field
     // user for results array
     // first param in hooks is data in state (we want to update) , second param is a function to manipulate data in state
@@ -26,7 +26,7 @@ export default function FindPeople(props) {
             }
         })();
 
-        //cleanup-function, runs before very re-render
+        //cleanup-function, runs before every re-render
         return () => {
             console.log("searchUser in returned function:", searchUser);
             abort = true;
@@ -34,8 +34,6 @@ export default function FindPeople(props) {
     }, [searchUser]);
 
     //empty array to run useEffect only once
-
-    // add second query for user by name
 
     return (
         <div className="findPeople">

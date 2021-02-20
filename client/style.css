@@ -37,3 +37,10 @@ body {
     border: solid black 2px;
     margin: 4px;
 }
+
+/* FRIENDS */
+
+.FriendButton {
+    height: 40px;
+    width: 100px;
+}

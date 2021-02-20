@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "./axios";
-import { Link } from "react-router-dom";
+import Friendbutton from "./friendbutton";
+//import { Link } from "react-router-dom";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -51,6 +52,7 @@ export default class OtherProfile extends React.Component {
         }
 
         // let imgUrl = this.state.profile_pic_url || "/defaultuser.png";
+        console.log("this.props.match.params.id:", this.props.match.params.id);
         return (
             <div className="otherProfile">
                 <img
@@ -62,6 +64,10 @@ export default class OtherProfile extends React.Component {
                     {this.state.first} {this.state.last}
                 </h3>
                 <p>{this.state.bio}</p>
+                <Friendbutton
+                    otherUserId={this.props.match.params.id}
+                    loggedInUserId={this.props.id}
+                />
             </div>
         );
     }
