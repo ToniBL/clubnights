@@ -1,7 +1,7 @@
 export default function Logo() {
     return (
-        <div className="border-green">
-            <h1>This is the Logo component</h1>
+        <div className="logo-nav ">
+            <img className="logo-nav-img" src={"001-om.svg"}></img>
         </div>
     );
 }

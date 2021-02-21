@@ -68,12 +68,12 @@ const uploader = multer({
     },
 });
 //Debug Middleware: what url get's requested and what cookies do we have?
-app.use((req, res, next) => {
-    console.log("req.url", req.url);
-    console.log("req.session:", req.session);
+// app.use((req, res, next) => {
+//     console.log("req.url", req.url);
+//     console.log("req.session:", req.session);
 
-    next();
-});
+//     next();
+// });
 
 //PART 1 REGISTRATION
 app.get("/welcome", (req, res) => {
@@ -373,6 +373,46 @@ app.post(`/friendstatus/:id`, async (req, res) => {
         console.log("err in post friendstatus:", err);
         res.json({ err: true });
     }
+});
+
+// PART 9 FRIENDSLIST
+
+app.get("/friendslist", async (req, res) => {
+    // datenbankabfrage mit sessionId
+    const loggedInUserId = req.session.userId;
+
+    res.json([
+        {
+            id: 1,
+            first: "Funky",
+            last: "Chicken",
+            image: "/images/default.jpg",
+            accepted: false,
+        },
+        {
+            id: 2,
+            first: "Disco",
+            last: "Duck",
+            image: "/images/default.jpg",
+            accepted: true,
+        },
+    ]);
+});
+//UNFRIEND
+app.post("/friendlist", async (req, res) => {
+    const loggedInUserId = req.session.userId;
+    await db.cancelRequest(loggedInUserId, otherUserId);
+    const status = await getFriendshipStatus(otherUserId, loggedInUserId);
+    console.log("status:", status);
+    res.json(status);
+});
+//BEEFRIEND
+app.post("/friendlist", async (req, res) => {
+    const loggedInUserId = req.session.userId;
+    await db.acceptRequest(loggedInUserId, otherUserId);
+    const status = await getFriendshipStatus(otherUserId, loggedInUserId);
+    console.log("status:", status);
+    res.json(status);
 });
 
 app.get("*", function (req, res) {

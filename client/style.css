@@ -2,11 +2,55 @@ body {
     font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
         "Lucida Sans", Arial, sans-serif;
     background-color: rgb(240, 240, 243);
+    display: grid;
 }
 
-.profile-img {
+/*NAVBAR*/
+.navbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    height: 100px;
+    background-color: #cdfffc;
+}
+
+.logo-nav {
+    height: 80px;
+    width: 80px;
+}
+
+.logo-nav-img {
+    height: 100%;
+}
+
+/*PROFILE*/
+
+.profile-pic-box .profile-pic {
+    height: 100%;
+}
+
+.profile-pic-box.small {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profile-pic.large {
     width: 200px;
     height: 200px;
+    cursor: pointer;
+}
+
+.profile-component {
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+    grid-template-rows: 1fr, 1fr, 1fr;
+}
+
+.profile-component h1 {
+    color: hotpink;
 }
 
 .uploader {

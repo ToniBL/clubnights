@@ -1,15 +1,33 @@
 // this will contain all of our action creators
 // actionscreator = function that resturns obj
 
-import axios from "axios";
+import axios from "./axios";
+// following action descriptions
+export const GET_FRIENDS_LIST = "GET_FRIENDS_LIST";
+export const BEFRIEND = "BEFRIEND";
+export const UNFRIEND = "UNFRIEND";
 
-// import axios from "./axios"
-
-export async function myfirstactioncreator() {
+export async function getFriendsList() {
     // we can OPTIONALLY talk to the server here ...
-    const { data = await axios.get("/someroute") };
+    const { data } = await axios.get("/friendslist");
     return {
-        type: "UPDATE_STATE_SOMEHOW",
-        data: data.user.id,
+        type: GET_FRIENDS_LIST,
+        data: data,
+    };
+}
+
+export async function acceptFriend(id) {
+    const { data } = await axios.post("/friendslist");
+    return {
+        type: BEFRIEND,
+        data: data,
+    };
+}
+
+export async function unfriend(id) {
+    const { data } = await axios.post("/friendslist");
+    return {
+        type: UNFRIEND,
+        data: data,
     };
 }

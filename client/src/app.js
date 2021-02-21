@@ -1,12 +1,13 @@
 import React from "react";
 import axios from "./axios";
-import Logo from "./logo";
+import Navbar from "./navbar";
 import ProfilePic from "./profilepic";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
+import Friends from "./friends";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -78,8 +79,7 @@ export default class App extends React.Component {
         // if(!this.state.id) { return null;} -> have a blank page until data from server arrives
         return (
             <div className="app">
-                <Logo />
-                <ProfilePic
+                <Navbar
                     id={this.state.id}
                     first={this.state.first}
                     last={this.state.last}
@@ -118,6 +118,7 @@ export default class App extends React.Component {
                             />
                         )}
                     />
+                    <Route path="/friendslist" render={() => <Friends />} />
                 </BrowserRouter>
             </div>
         );
