@@ -4,12 +4,12 @@
 import axios from "./axios";
 // following action descriptions
 export const GET_FRIENDS_LIST = "GET_FRIENDS_LIST";
-export const BEFRIEND = "BEFRIEND";
-export const UNFRIEND = "UNFRIEND";
+export const ACCEPT = "ACCEPT";
+export const CANCEL = "CANCEL";
 
 export async function getFriendsList() {
     // we can OPTIONALLY talk to the server here ...
-    const { data } = await axios.get("/friendslist");
+    const { data } = await axios.get("/api/friendslist");
     console.log("data in actions:", data);
     return {
         type: GET_FRIENDS_LIST,
@@ -17,18 +17,25 @@ export async function getFriendsList() {
     };
 }
 
-export async function acceptFriend(id) {
-    const { data } = await axios.post("/friendslist");
+export async function acceptFriend(otherUserId) {
+    let accept = true;
+    const { data } = await axios.post(`/friendstatus${otherUserId},`, {
+        accept,
+    });
     return {
-        type: BEFRIEND,
-        data: data,
+        type: ACCEPT,
+        data: otherUserId,
     };
 }
 
-export async function unfriend(id) {
-    const { data } = await axios.post("/friendslist");
+export async function cancelFriend(otherUserId) {
+    let cancel = true;
+    console.log("otherUserId", otherUserId);
+    const { data } = await axios.post(`/friendstatus/${otherUserId}`, {
+        cancel,
+    });
     return {
-        type: UNFRIEND,
-        data: data,
+        type: CANCEL,
+        data: otherUserId,
     };
 }

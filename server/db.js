@@ -107,12 +107,12 @@ module.exports.cancelRequest = (loggedInUserId, otherUserId) => {
 };
 
 module.exports.displayFriends = (loggedInUserId) => {
-    const q = `SELECT users.id, first, last, image, accepted
+    const q = `SELECT users.id, first, last, profile_pic_url, accepted 
     FROM friendships
-    JOIN users
+    JOIN users 
     ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
     OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
     const params = [loggedInUserId];
-    return (db.query = [q, params]);
+    return db.query(q, params);
 };

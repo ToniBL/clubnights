@@ -68,12 +68,12 @@ const uploader = multer({
     },
 });
 //Debug Middleware: what url get's requested and what cookies do we have?
-// app.use((req, res, next) => {
-//     console.log("req.url", req.url);
-//     console.log("req.session:", req.session);
+app.use((req, res, next) => {
+    console.log("req.url", req.url);
+    console.log("req.session:", req.session);
 
-//     next();
-// });
+    next();
+});
 
 //PART 1 REGISTRATION
 app.get("/welcome", (req, res) => {
@@ -378,36 +378,44 @@ app.post(`/friendstatus/:id`, async (req, res) => {
 // PART 9 FRIENDSLIST
 
 app.get("/api/friendslist", async (req, res) => {
+    console.log("api/friendlist get request");
     // datenbankabfrage mit sessionId
-    const loggedInUserId = req.session.userId;
 
-    res.json([
-        {
-            id: 1,
-            first: "Funky",
-            last: "Chicken",
-            image: "/images/default.jpg",
-            accepted: false,
-        },
-        {
-            id: 2,
-            first: "Disco",
-            last: "Duck",
-            image: "/images/default.jpg",
-            accepted: true,
-        },
-    ]);
+    // res.json([
+    //     {
+    //         id: 1,
+    //         first: "Funky",
+    //         last: "Chicken",
+    //         image: "/images/default.jpg",
+    //         accepted: false,
+    //     },
+    //     {
+    //         id: 2,
+    //         first: "Disco",
+    //         last: "Duck",
+    //         image: "/images/default.jpg",
+    //         accepted: true,
+    //     },
+    //     {
+    //         id: 3,
+    //         first: "Dancing",
+    //         last: "Dino",
+    //         image: "/images/default.jpg",
+    //         accepted: true,
+    //     },
+    // ]);
+    const loggedInUserId = req.session.userId;
+    try {
+        const data = await db.displayFriends(loggedInUserId);
+        console.log("data in getFriendList:", data);
+        res.json(data.rows);
+    } catch (err) {
+        console.log("err in getFriendsList:", err);
+    }
 });
 
 // datenbankabfrage mit sessionId
-//     const loggedInUserId = req.session.userId;
-//     try {
-//         const data = await db.displayFriends(loggedInUserId);
-//         console.log("data in getFriendList:", data);
-//         res.json(rows);
-//     } catch (err) {
-//         console.log("err in getFriendsList:", err);
-//     }
+//
 // });
 // //UNFRIEND
 // app.post("/friendlist", async (req, res) => {
