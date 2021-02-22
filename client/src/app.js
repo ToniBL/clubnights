@@ -118,7 +118,7 @@ export default class App extends React.Component {
                             />
                         )}
                     />
-                    <Route path="/friendslist" render={() => <Friends />} />
+                    <Route path="/api/friendslist" render={() => <Friends />} />
                 </BrowserRouter>
             </div>
         );

@@ -10,6 +10,7 @@ export const UNFRIEND = "UNFRIEND";
 export async function getFriendsList() {
     // we can OPTIONALLY talk to the server here ...
     const { data } = await axios.get("/friendslist");
+    console.log("data in actions:", data);
     return {
         type: GET_FRIENDS_LIST,
         data: data,

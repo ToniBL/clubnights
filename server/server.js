@@ -377,7 +377,7 @@ app.post(`/friendstatus/:id`, async (req, res) => {
 
 // PART 9 FRIENDSLIST
 
-app.get("/friendslist", async (req, res) => {
+app.get("/api/friendslist", async (req, res) => {
     // datenbankabfrage mit sessionId
     const loggedInUserId = req.session.userId;
 
@@ -398,22 +398,33 @@ app.get("/friendslist", async (req, res) => {
         },
     ]);
 });
-//UNFRIEND
-app.post("/friendlist", async (req, res) => {
-    const loggedInUserId = req.session.userId;
-    await db.cancelRequest(loggedInUserId, otherUserId);
-    const status = await getFriendshipStatus(otherUserId, loggedInUserId);
-    console.log("status:", status);
-    res.json(status);
-});
-//BEEFRIEND
-app.post("/friendlist", async (req, res) => {
-    const loggedInUserId = req.session.userId;
-    await db.acceptRequest(loggedInUserId, otherUserId);
-    const status = await getFriendshipStatus(otherUserId, loggedInUserId);
-    console.log("status:", status);
-    res.json(status);
-});
+
+// datenbankabfrage mit sessionId
+//     const loggedInUserId = req.session.userId;
+//     try {
+//         const data = await db.displayFriends(loggedInUserId);
+//         console.log("data in getFriendList:", data);
+//         res.json(rows);
+//     } catch (err) {
+//         console.log("err in getFriendsList:", err);
+//     }
+// });
+// //UNFRIEND
+// app.post("/friendlist", async (req, res) => {
+//     const loggedInUserId = req.session.userId;
+//     await db.cancelRequest(loggedInUserId, otherUserId);
+//     const status = await getFriendshipStatus(otherUserId, loggedInUserId);
+//     console.log("status:", status);
+//     res.json(status);
+// });
+// //BEEFRIEND
+// app.post("/friendlist", async (req, res) => {
+//     const loggedInUserId = req.session.userId;
+//     await db.acceptRequest(loggedInUserId, otherUserId);
+//     const status = await getFriendshipStatus(otherUserId, loggedInUserId);
+//     console.log("status:", status);
+//     res.json(status);
+// });
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
