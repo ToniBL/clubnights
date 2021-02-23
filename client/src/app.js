@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Link } from "react-router-dom";
 import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
+import Logout from "./logout";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -90,6 +91,7 @@ export default class App extends React.Component {
                 {this.state.uploaderVisible && (
                     <Uploader setProfilePicUrl={this.setProfilePicUrl} />
                 )}
+
                 <BrowserRouter>
                     <Route
                         exact

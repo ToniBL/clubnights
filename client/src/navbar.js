@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function Navbar({
     id,
-    profile_pic_url,
+    profilePicUrl,
     first,
     last,
     toggleUploader,
@@ -14,12 +14,15 @@ export default function Navbar({
     return (
         <div className="navbar">
             <Logo />
+            <p>
+                Namaste, {first} {last} good to see you!
+            </p>
             <div className={`profile-pic${size}`}>
                 <ProfilePic
                     id={id}
                     first={first}
                     last={last}
-                    profile_pic_url={profile_pic_url}
+                    profilePicUrl={profilePicUrl}
                     size="small"
                     toggleUploader={toggleUploader}
                 />

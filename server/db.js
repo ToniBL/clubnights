@@ -93,7 +93,7 @@ module.exports.friendRequest = (loggedInUserId, otherUserId) => {
 };
 
 module.exports.acceptRequest = (loggedInUserId, otherUserId) => {
-    const q = `UPDATE friendships SET accept true WHERE (recipient_id = $1 AND sender_id=$2) 
+    const q = `UPDATE friendships SET accepted = true WHERE (recipient_id = $1 AND sender_id=$2) 
     OR (recipient_id=$2 AND sender_id =$1)`;
     const params = [loggedInUserId, otherUserId];
     return db.query(q, params);

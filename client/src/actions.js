@@ -18,9 +18,8 @@ export async function getFriendsList() {
 }
 
 export async function acceptFriend(otherUserId) {
-    let accept = true;
-    const { data } = await axios.post(`/friendstatus${otherUserId},`, {
-        accept,
+    const { data } = await axios.post(`/friendstatus/${otherUserId}`, {
+        action: "accept",
     });
     return {
         type: ACCEPT,

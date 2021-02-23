@@ -23,11 +23,13 @@ export function reducer(state = initialState, action) {
     }
 
     if (action.type === ACCEPT) {
+        console.log("state in ACCEPT:", state);
+        console.log("action.data ACCEPT:", action.data);
         state = {
             ...state,
             friendships: state.friendships.map((user) => {
                 if (user.id === action.data) {
-                    return { ...user, accept: true };
+                    return { ...user, accepted: true };
                 } else {
                     return user;
                 }

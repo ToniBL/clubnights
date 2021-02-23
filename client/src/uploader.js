@@ -42,6 +42,7 @@ export default class Uploader extends React.Component {
                 {this.state.err && (
                     <p> ERROR: Something went wrong please try again</p>
                 )}
+                <p>Upload a profilepicture 🤳 </p>
                 <input
                     type="file"
                     name="file"

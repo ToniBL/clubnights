@@ -340,7 +340,7 @@ app.get(`/friendstatus/:id`, async (req, res) => {
 
 app.post(`/friendstatus/:id`, async (req, res) => {
     const loggedInUserId = req.session.userId;
-    console.log("req:", req.body);
+    //console.log("req:", req.body);
     const otherUserId = req.params.id;
     const { action } = req.body;
     try {
@@ -380,59 +380,21 @@ app.post(`/friendstatus/:id`, async (req, res) => {
 app.get("/api/friendslist", async (req, res) => {
     console.log("api/friendlist get request");
     // datenbankabfrage mit sessionId
-
-    // res.json([
-    //     {
-    //         id: 1,
-    //         first: "Funky",
-    //         last: "Chicken",
-    //         image: "/images/default.jpg",
-    //         accepted: false,
-    //     },
-    //     {
-    //         id: 2,
-    //         first: "Disco",
-    //         last: "Duck",
-    //         image: "/images/default.jpg",
-    //         accepted: true,
-    //     },
-    //     {
-    //         id: 3,
-    //         first: "Dancing",
-    //         last: "Dino",
-    //         image: "/images/default.jpg",
-    //         accepted: true,
-    //     },
-    // ]);
     const loggedInUserId = req.session.userId;
     try {
         const data = await db.displayFriends(loggedInUserId);
-        console.log("data in getFriendList:", data);
+        // console.log("data in getFriendList:", data);
         res.json(data.rows);
     } catch (err) {
         console.log("err in getFriendsList:", err);
     }
 });
 
-// datenbankabfrage mit sessionId
-//
-// });
-// //UNFRIEND
-// app.post("/friendlist", async (req, res) => {
-//     const loggedInUserId = req.session.userId;
-//     await db.cancelRequest(loggedInUserId, otherUserId);
-//     const status = await getFriendshipStatus(otherUserId, loggedInUserId);
-//     console.log("status:", status);
-//     res.json(status);
-// });
-// //BEEFRIEND
-// app.post("/friendlist", async (req, res) => {
-//     const loggedInUserId = req.session.userId;
-//     await db.acceptRequest(loggedInUserId, otherUserId);
-//     const status = await getFriendshipStatus(otherUserId, loggedInUserId);
-//     console.log("status:", status);
-//     res.json(status);
-// });
+// app.get("/logout", (req, res) {
+// req.session = null;
+// console.log("req.session.logout:", req.session)
+// res.redirect("/welcome")
+// })
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getFriendsList, acceptFriend, cancelFriend } from "./actions";
 import { getFriendsAndPending, getFriends, getPending } from "./selectors";
 
-// import { Link } from "react-router-dom"; -> otional link to profile
+import { Link } from "react-router-dom";
 
 export default function Friends() {
     const dispatch = useDispatch();
@@ -22,7 +22,10 @@ export default function Friends() {
             <h2>Friends</h2>
             {friends.map((friend) => (
                 <div key={friend.id}>
-                    <img src={friend.profile_pic_url}></img>
+                    <Link>
+                        <img src={friend.profile_pic_url}></img>
+                    </Link>
+
                     <p>
                         {friend.first} {friend.last}{" "}
                     </p>
@@ -46,7 +49,9 @@ export default function Friends() {
             <h2>Pending Friendrequests</h2>
             {pending.map((friend) => (
                 <div key={friend.id}>
-                    <img src={friend.profile_pic_url}></img>
+                    <Link>
+                        <img src={friend.profile_pic_url}></img>
+                    </Link>
                     <p>
                         {friend.first} {friend.last}{" "}
                     </p>
