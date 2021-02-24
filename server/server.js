@@ -436,27 +436,28 @@ io.on("connection", async (socket) => {
     }
     try {
         const { rows } = await db.listMessages();
-        socket.emit("listMessages", rows.reverse());
+        io.emit("listMessages", rows.reverse());
     } catch (err) {
         console.log("err in listMessages:", err);
     }
 
     socket.on("chatMessage", async (message) => {
         try {
-            // console.log("message: ", message);
+            console.log("message: ", message);
 
             if (message) {
                 const { rows: chatRows } = await db.addMessage(userId, message);
                 const { rows } = await db.getUserData(userId);
-                console.log("+++Rows: ", rows);
-                const message = {
+
+                const newMessage = {
                     first: rows[0].first,
                     last: rows[0].last,
                     profile_pic_url: rows[0].profile_pic_url,
                     timestamp: chatRows[0].created_at,
                     message: message,
                 };
-                io.emit("chatMessage", message);
+                console.log("newMessage ", newMessage);
+                io.emit("chatMessage", newMessage);
             }
         } catch (error) {
             console.log("Err in addMsg: ", error);

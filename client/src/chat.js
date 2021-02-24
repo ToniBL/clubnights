@@ -9,14 +9,21 @@ import { useState, useEffect, useRef } from "react";
 export default function Chat() {
     const [message, setMessage] = useState("");
 
+    const msgs = useSelector((state) => {
+        console.log("state: ", state);
+        return state.messages;
+    });
+
     const elemRef = useRef();
-    const msgs = useSelector((state) => state.messages);
+
+    console.log("MSGS:", msgs);
 
     useEffect(() => {
         elemRef.current.scrollTop = elemRef.current.clientHeight;
     }, [msgs]);
 
     const submitMessage = (e) => {
+        console.log("MESSAGE in chat:", message);
         e.preventDefault();
         socket.emit("chatMessage", message);
     };
@@ -46,6 +53,7 @@ export default function Chat() {
                                     {message.first} {message.last}
                                     {""}
                                 </p>
+                                <p>{message.message}</p>
                             </div>
                         ))}
                 </div>

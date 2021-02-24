@@ -7,7 +7,7 @@ export const init = (store) => {
     if (!socket) {
         socket = io.connect();
 
-        socket.on("tenMessages", (msgs) => store.dispatch(listMessages(msgs)));
+        socket.on("listMessages", (msgs) => store.dispatch(listMessages(msgs)));
 
         socket.on("chatMessage", (message) =>
             store.dispatch(addMessage(message))

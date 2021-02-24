@@ -48,14 +48,15 @@ export function reducer(state = initialState, action) {
         console.log("action.data in DISPLAY", action.message);
         state = {
             ...state,
-            messages: [...state.messages, ...action.message],
+            messages: [...state.messages, ...action.data],
         };
     }
 
     if (action.type === ADD_MESSAGE) {
+        console.log("action:", action);
         state = {
             ...state,
-            messages: [...state.messages, ...action.message],
+            messages: [...state.messages, action.data],
         };
     }
 
