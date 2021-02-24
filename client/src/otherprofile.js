@@ -1,3 +1,4 @@
+import Logo from "./logo";
 import React from "react";
 import axios from "./axios";
 import Friendbutton from "./friendbutton";
@@ -10,7 +11,7 @@ export default class OtherProfile extends React.Component {
             id: this.props.id,
             first: this.props.first,
             last: this.props.last,
-            profilePicUrl: this.props.profile_pic_url,
+            profile_pic_url: this.props.profile_pic_url,
             bio: this.props.bio,
             err: false,
         };
@@ -30,9 +31,10 @@ export default class OtherProfile extends React.Component {
                     id: resp.data.rows[0].id,
                     first: resp.data.rows[0].first,
                     last: resp.data.rows[0].last,
-                    profilePicUrl: resp.data.rows[0].profilePicUrl,
+                    profile_pic_url: resp.data.rows[0].profile_pic_url,
                     bio: resp.data.rows[0].bio,
                 });
+                console.log("this.state in otherprofile:", this.state);
                 if (this.props.match.params.id == resp.data.rows.cookies) {
                     this.props.history.push("/");
                 }
@@ -56,7 +58,8 @@ export default class OtherProfile extends React.Component {
         return (
             <div className="otherProfile">
                 <img
-                    src={`${this.state.profile_pic_url}`}
+                    className="otherProfile-pic"
+                    src={this.state.profile_pic_url || "/002-ganesha.svg"}
                     alt={`${this.state.first} ${this.state.last}`}
                 />
 

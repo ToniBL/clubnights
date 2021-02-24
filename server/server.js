@@ -37,13 +37,21 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: cookie_sec,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-    })
-);
-// csurf comment out for Part 1 finishing
+// app.use(
+//     cookieSession({
+//         secret: cookie_sec,
+//         maxAge: 1000 * 60 * 60 * 24 * 14,
+//     })
+// );
+const cookieSessionMiddleware = cookieSession({
+    secret: cookie_sec,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
 app.use(csurf());
 app.use(function (req, res, next) {
     res.cookie("mytoken", req.csrfToken());
@@ -88,6 +96,14 @@ app.get("/welcome", (req, res) => {
 });
 
 app.post("/registration", (req, res) => {
+    if (
+        req.body.first === "" ||
+        req.body.last === "" ||
+        req.body.email === "" ||
+        req.body.password === ""
+    ) {
+        res.json({ err: true });
+    }
     hash(req.body.password)
         .then((hashedPw) => {
             //   console.log("hashedPW in register:", hashedPw);
@@ -390,11 +406,11 @@ app.get("/api/friendslist", async (req, res) => {
     }
 });
 
-// app.get("/logout", (req, res) {
-// req.session = null;
-// console.log("req.session.logout:", req.session)
-// res.redirect("/welcome")
-// })
+app.get("/logout", (req, res) => {
+    req.session = null;
+    console.log("req.session.logout:", req.session);
+    res.redirect("/welcome");
+});
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
@@ -409,30 +425,41 @@ server.listen(process.env.PORT || 3001, function () {
 // connection is a eventlistener, so is disconnect
 // every connection to the server from every browser has their own socket.id
 
-io.on("connection", (socket) => {
-    console.log(socket);
+// PART 10
+
+io.on("connection", async (socket) => {
+    console.log(socket.request.session);
+    const userId = socket.request.session.userId;
     console.log(`socket with id: ${socket.id} has connected`);
+    if (!userId) {
+        return socket.disconnect(true);
+    }
+    try {
+        const { rows } = await db.listMessages();
+        socket.emit("listMessages", rows.reverse());
+    } catch (err) {
+        console.log("err in listMessages:", err);
+    }
 
-    // sends a message to it's own socket
-    socket.emit("hello", {
-        cohrt: "adobo",
-    });
+    socket.on("chatMessage", async (message) => {
+        try {
+            // console.log("message: ", message);
 
-    // sends a message to ALL connected sockets
-    io.emit("hello", {
-        cohort: "adoboS",
-    });
-    //sends a messge to ALl soccets EXEPT your own
-    socket.broadcast.emit("hello", {
-        cohort: "adobo",
-    });
-
-    //io.sockets = obj of ALL the sockets / sockets lives on that
-    io.sockets.sockets.get(socket.id).emit("hello", {
-        cohort: "adobo",
-    });
-
-    socket.on("disconnect", () => {
-        console.log(`socket with id: ${socket.id} just disconnected`);
+            if (message) {
+                const { rows: chatRows } = await db.addMessage(userId, message);
+                const { rows } = await db.getUserData(userId);
+                console.log("+++Rows: ", rows);
+                const message = {
+                    first: rows[0].first,
+                    last: rows[0].last,
+                    profile_pic_url: rows[0].profile_pic_url,
+                    timestamp: chatRows[0].created_at,
+                    message: message,
+                };
+                io.emit("chatMessage", message);
+            }
+        } catch (error) {
+            console.log("Err in addMsg: ", error);
+        }
     });
 });

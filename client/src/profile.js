@@ -3,7 +3,7 @@ import Bioedit from "./bioedit";
 
 export default function Profile({
     id,
-    profilePicUrl,
+    profile_pic_url,
     first,
     last,
     toggleUploader,
@@ -15,18 +15,27 @@ export default function Profile({
     // console.log("props.bio:", props.bio);
     return (
         <div className="profile-component">
-            <h1>{`${first} ${last}`}</h1>
-            <div className={`profile-component-pic ${size}`}>
-                <ProfilePic
-                    id={id}
-                    first={first}
-                    last={last}
-                    profilePicUrl={profilePicUrl}
-                    size="large"
-                    toggleUploader={toggleUploader}
-                />
+            <div className="banner-img">
+                <div className={`profile-component-pic ${size}`}>
+                    <ProfilePic
+                        id={id}
+                        first={first}
+                        last={last}
+                        profile_pic_url={profile_pic_url}
+                        size="large"
+                        toggleUploader={toggleUploader}
+                    />
+                    <div className="bio-text">
+                        <h3>Mission-Statement</h3>
+                        <Bioedit bio={bio} setBio={setBio} />
+                    </div>
+                </div>
+                <h1>{`${first} ${last}`}</h1>
+            </div>
 
-                <Bioedit bio={bio} setBio={setBio} />
+            <div className="profile-content">
+                <div className="image-galery"></div>
+                <div className="comments"></div>
             </div>
         </div>
     );

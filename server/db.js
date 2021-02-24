@@ -116,3 +116,21 @@ module.exports.displayFriends = (loggedInUserId) => {
     const params = [loggedInUserId];
     return db.query(q, params);
 };
+
+module.exports.listMessages = () => {
+    const q = `SELECT sender_id, message, chat.created_at, first, last, profile_pic_url
+    FROM chat
+    JOIN users 
+    ON sender_id = users.id
+    ORDER BY chat.id DESC
+    LIMIT 10`;
+    return db.query(q);
+};
+
+module.exports.addMessage = (sender_id, message) => {
+    const q = `INSERT into chat (sender_id, message) 
+    VALUES ($1, $2)
+    RETURNING created_at`;
+    const params = [sender_id, message];
+    return db.query(q, params);
+};

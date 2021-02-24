@@ -9,6 +9,7 @@ import OtherProfile from "./otherprofile";
 import FindPeople from "./findpeople";
 import Friends from "./friends";
 import Logout from "./logout";
+import Chat from "./chat";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -57,10 +58,10 @@ export default class App extends React.Component {
     // DidUpdate is called after DidMount, takes 2 arguments: prev.props & prev.state; inside method we perform conditional check: e.a. if(prevState.url !== this.state.url) {console.log("state changed")}
     //componentDidUpdate()
 
-    setProfilePicUrl(profilePicUrl) {
+    setProfilePicUrl(profile_pic_url) {
         //  console.log("profile URL SET ", profilePicUrl);
         this.setState({
-            profile_pic_url: profilePicUrl,
+            profile_pic_url: profile_pic_url,
             uploaderVisible: false,
         });
     }
@@ -80,19 +81,19 @@ export default class App extends React.Component {
         // if(!this.state.id) { return null;} -> have a blank page until data from server arrives
         return (
             <div className="app">
-                <Navbar
-                    id={this.state.id}
-                    first={this.state.first}
-                    last={this.state.last}
-                    profilePicUrl={this.state.profile_pic_url}
-                    size="small"
-                    toggleUploader={this.toggleUploader}
-                />
-                {this.state.uploaderVisible && (
-                    <Uploader setProfilePicUrl={this.setProfilePicUrl} />
-                )}
-
                 <BrowserRouter>
+                    <Navbar
+                        id={this.state.id}
+                        first={this.state.first}
+                        last={this.state.last}
+                        profile_pic_url={this.state.profile_pic_url}
+                        size="small"
+                        toggleUploader={this.toggleUploader}
+                    />
+                    {this.state.uploaderVisible && (
+                        <Uploader setProfilePicUrl={this.setProfilePicUrl} />
+                    )}
+
                     <Route
                         exact
                         path="/"
@@ -101,7 +102,7 @@ export default class App extends React.Component {
                                 id={this.state.id}
                                 first={this.state.first}
                                 last={this.state.last}
-                                profilePicUrl={this.state.profile_pic_url}
+                                profile_pic_url={this.state.profile_pic_url}
                                 size="small"
                                 bio={this.state.bio}
                                 toggleUploader={this.toggleUploader}
@@ -109,7 +110,16 @@ export default class App extends React.Component {
                             />
                         )}
                     />
-                    <Route path="/user/:id" component={OtherProfile} />
+                    <Route
+                        path="/user/:id"
+                        render={(props) => (
+                            <OtherProfile
+                                key={props.match.url}
+                                match={props.match}
+                                history={props.history}
+                            />
+                        )}
+                    />
                     <Route
                         path="/users"
                         render={(props) => (
@@ -121,6 +131,7 @@ export default class App extends React.Component {
                         )}
                     />
                     <Route path="/friendslist" render={() => <Friends />} />
+                    <Route path="/chat" render={() => <Chat />} />
                 </BrowserRouter>
             </div>
         );

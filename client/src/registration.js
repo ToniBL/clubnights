@@ -17,8 +17,8 @@ export default class Registration extends React.Component {
     }
 
     handleChange(e) {
-        console.log("e.target.value", e.target.value);
-        console.log("e.target.name", e.target.name); // shows input field according to name we choose for name in input
+        // console.log("e.target.value", e.target.value);
+        // console.log("e.target.name", e.target.name); // shows input field according to name we choose for name in input
         // this.setState is used to put/update state
         this.setState(
             {
@@ -31,6 +31,7 @@ export default class Registration extends React.Component {
     handleClick() {
         // with submit we trigger axios to server to pass input value to db
         // check input before axios
+        this.err = false;
 
         axios
             .post("/registration", this.state)

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 
-export default function FindPeople(props) {
+export default function FindPeople() {
     //console.log("props in Findpeople:", props);
     // searchUser to monitor the input field
     // user for results array

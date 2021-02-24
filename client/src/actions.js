@@ -6,6 +6,8 @@ import axios from "./axios";
 export const GET_FRIENDS_LIST = "GET_FRIENDS_LIST";
 export const ACCEPT = "ACCEPT";
 export const CANCEL = "CANCEL";
+export const LIST_MESSAGES = "LIST_MESSAGES";
+export const ADD_MESSAGE = "ADD_MESSAGE;";
 
 export async function getFriendsList() {
     // we can OPTIONALLY talk to the server here ...
@@ -28,13 +30,35 @@ export async function acceptFriend(otherUserId) {
 }
 
 export async function cancelFriend(otherUserId) {
-    let cancel = true;
     console.log("otherUserId", otherUserId);
     const { data } = await axios.post(`/friendstatus/${otherUserId}`, {
-        cancel,
+        action: "cancel",
     });
     return {
         type: CANCEL,
         data: otherUserId,
     };
+}
+
+export async function listMessages(msgs) {
+    console.log("data in displayMessages:", msgs);
+    try {
+        return {
+            type: LIST_MESSAGES,
+            data: msgs,
+        };
+    } catch (err) {
+        console.log("err in listMessages:", err);
+    }
+}
+
+export async function addMessage(message) {
+    try {
+        return {
+            type: ADD_MESSAGE,
+            data: message,
+        };
+    } catch (err) {
+        console.log("err in addMessages:", err);
+    }
 }
