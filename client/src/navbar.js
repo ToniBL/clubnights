@@ -1,9 +1,9 @@
 import Logo from "./logo";
-import Uploader from "./uploader";
+// import Uploader from "./uploader";
 import ProfilePic from "./profilepic";
-import { BrowserRouter, NavLink } from "react-router-dom";
-import Logout from "./logout";
-import Friends from "./friends";
+import { NavLink } from "react-router-dom";
+// import Logout from "./logout";
+// import Friends from "./friends";
 
 export default function Navbar({
     id,
@@ -20,7 +20,7 @@ export default function Navbar({
                 <div className="navelements">
                     <div className="navitem">
                         <NavLink style={{ textDecoration: "none" }} to="/">
-                            Home{" "}
+                            <p>Home</p>
                         </NavLink>
                     </div>
                     <div className="navitem">
@@ -28,21 +28,21 @@ export default function Navbar({
                             style={{ textDecoration: "none" }}
                             to="/friendslist"
                         >
-                            Friends{" "}
+                            <p>Friends </p>
                         </NavLink>
                     </div>
                     <div className="navitem">
                         <NavLink style={{ textDecoration: "none" }} to="/users">
-                            Search{" "}
+                            <p> Search</p>
                         </NavLink>
                     </div>
                     <div className="navitem">
-                        <NavLink
-                            style={{ textDecoration: "none" }}
-                            to="/logout"
-                        >
-                            Logout
+                        <NavLink style={{ textDecoration: "none" }} to="/chat">
+                            <p> Chat</p>
                         </NavLink>
+                    </div>
+                    <div className="navitem">
+                        <a href="/logout">Logout</a>
                     </div>
                 </div>
                 <div className={`profile-pic${size}`}>

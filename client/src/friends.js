@@ -18,27 +18,37 @@ export default function Friends() {
     }, []);
 
     return (
-        <div className="friendslist">
-            <h2>Friends</h2>
-            {friends.map((friend) => (
-                <div key={friend.id}>
-                    <Link>
-                        <img src={friend.profile_pic_url}></img>
-                    </Link>
+        <section className="friendslist-component">
+            <div className="Friends">
+                <h2>Your Friends</h2>
+                {friends.map((friend) => (
+                    <div key={friend.id}>
+                        <Link to={`/user/${friend.id}`}>
+                            <div className="friends-pic-box">
+                                <img
+                                    className="friends-pic"
+                                    src={friend.profile_pic_url}
+                                ></img>
+                            </div>
+                        </Link>
 
-                    <p>
-                        {friend.first} {friend.last}{" "}
-                    </p>
+                        <p>
+                            {friend.first} {friend.last}{" "}
+                        </p>
 
-                    <p>
-                        <button
-                            onClick={() => dispatch(cancelFriend(friend.id))}
-                        >
-                            Cancel
-                        </button>
-                    </p>
-                </div>
-            ))}
+                        <p>
+                            <button
+                                onClick={() =>
+                                    dispatch(cancelFriend(friend.id))
+                                }
+                            >
+                                Cancel
+                            </button>
+                        </p>
+                    </div>
+                ))}
+            </div>
+
             {/* <h2>Everyone</h2>
             {all.map((friend) => (
                 <div key={friend.id}>
@@ -46,25 +56,29 @@ export default function Friends() {
                     {friend.last}
                 </div>
             ))} */}
-            <h2>Pending Friendrequests</h2>
-            {pending.map((friend) => (
-                <div key={friend.id}>
-                    <Link>
-                        <img src={friend.profile_pic_url}></img>
-                    </Link>
-                    <p>
-                        {friend.first} {friend.last}{" "}
-                    </p>
+            <div className="pending">
+                <h2>Pending Friendrequests</h2>
+                {pending.map((friend) => (
+                    <div key={friend.id}>
+                        <Link>
+                            <img src={friend.profile_pic_url}></img>
+                        </Link>
+                        <p>
+                            {friend.first} {friend.last}{" "}
+                        </p>
 
-                    <p>
-                        <button
-                            onClick={() => dispatch(acceptFriend(friend.id))}
-                        >
-                            Accept
-                        </button>
-                    </p>
-                </div>
-            ))}
-        </div>
+                        <p>
+                            <button
+                                onClick={() =>
+                                    dispatch(acceptFriend(friend.id))
+                                }
+                            >
+                                Accept
+                            </button>
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 }

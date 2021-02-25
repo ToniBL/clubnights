@@ -1,26 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Parisienne&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Cormorant+Upright:wght@500&display=swap");
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-body {
-    font-family: Arial;
-    background-color: rgb(240, 240, 243);
-    display: grid;
+
+/*WELCOME*/
+
+.registration {
+    height: 100vh;
+    width: 100%;
+    background-image: url(breathe.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Parisienne", cursive;
+    color: rgb(240, 240, 243);
 }
 
+.welcome {
+    color: rgb(240, 240, 243);
+    font-size: 40px;
+    margin-top: 150px;
+    text-align: center;
+}
+
+.subtitle {
+    color: rgb(240, 240, 243);
+    font-size: 30px;
+    text-align: center;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    padding: 50px;
+    background-color: rgba(84, 98, 128, 0.6);
+    width: 450px;
+    height: 250px;
+    border-radius: 10px;
+}
+
+.registration-form input {
+    height: 30px;
+    width: 300px;
+
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    background-color: #14160b00;
+}
+
+.login {
+    height: 100vh;
+    width: 100%;
+    background-image: url(yogafly.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Parisienne", cursive;
+    color: rgb(240, 240, 243);
+}
+
+.login-form input {
+    height: 30px;
+    width: 300px;
+
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    background-color: #14160b00;
+    color: rgb(87, 76, 32);
+}
+
+.login-text {
+    justify-self: flex-end;
+    color: rgb(87, 76, 32);
+    font-size: 30px;
+}
 /*NAVBAR*/
 
 .header {
     box-shadow: 2px 8px 26px -14px rgba(0, 0, 0, 0.75);
+    font-family: "Parisienne", cursive;
 }
 
 .navbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 80px;
-    background-color: rgba(202, 204, 187, 0.301);
+    height: 70px;
+    background-color: rgba(175, 215, 221, 0.301);
     margin-bottom: 0px;
 }
 
@@ -29,7 +110,7 @@ body {
     flex-direction: row;
     justify-content: flex-end;
     margin-top: 10px;
-    color: cornsilk;
+
     padding: 20px;
     font-size: 25px;
 }
@@ -39,10 +120,14 @@ body {
     text-decoration: none;
 }
 
+a {
+    text-decoration: none;
+}
+
 .logo-nav {
     height: 50px;
     width: 50px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 25px;
 }
 
@@ -51,7 +136,7 @@ body {
 }
 
 .greeting {
-    background-color: #f1c39844;
+    background-color: #d9f19844;
     color: rgb(87, 76, 32);
 
     padding: 5px;
@@ -75,59 +160,50 @@ body {
     cursor: pointer;
 }
 
-.profile-pic.large {
+.profile-pic-box.large {
     width: 150px;
     height: 150px;
     cursor: pointer;
 }
 
 .profile-component {
+    font-family: "Cormorant Upright", serif;
+    height: 100%;
+    width: 100%;
+    background-image: url(lotus.jpg);
+    background-size: cover;
+    background-position: center;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
-
 .banner-img {
     margin-top: 30px;
     padding: 50px;
     display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    background-color: #fbd38d65;
+    flex-direction: row;
+    background-color: #618d7965;
     width: 70%;
+    height: 100vh;
     border-radius: 10px;
     box-shadow: 2px 8px 26px -14px rgba(0, 0, 0, 0.75);
 }
 
-.bio-text {
-    align-self: flex-end;
-}
-
 .profile-component h1 {
-    color: #cc561e;
+    color: #1d1b1a;
+    align-self: flex-end;
+    margin: 20px;
 }
 
 .bio-text {
     width: 65%;
     margin-top: 30px;
+    font-size: 25px;
+    margin: 20px;
 }
 
 .profile-content {
     display: flex;
-}
-
-.image-galery {
-    width: 250px;
-    height: 250px;
-    background-color: rgb(138, 18, 18);
-    justify-self: flex-start;
-}
-
-.comments {
-    width: 250px;
-    height: 250px;
-    background-color: lightcoral;
-    justify-self: flex-end;
 }
 
 .uploader {
@@ -139,29 +215,46 @@ body {
     width: 50%;
 }
 
-.border-red {
-    border: solid red 2px;
-    margin: 4px;
-}
-
-.border-blue {
-    border: solid blue 2px;
-    margin: 4px;
-}
-
-.border-green {
-    border: solid green 2px;
-    margin: 4px;
-}
-
-.border-black {
-    border: solid black 2px;
-    margin: 4px;
-}
-
 /* FRIENDS */
 
 .FriendButton {
     height: 40px;
     width: 100px;
+}
+
+.friendslist-component {
+    font-family: "Cormorant Upright", serif;
+    height: 100vh;
+    width: 100%;
+    background-image: url(buddha.jpg);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+.friendslist-component h2 {
+    margin: 20px;
+}
+
+.friends-pic-box {
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+}
+
+.friends-pic {
+    height: 100%;
+    border-radius: 6%;
+    margin: 10px;
+}
+
+/* CHAT*/
+.chat {
+    height: 100%;
+    width: 100%;
+    background-image: url(GoodVibes.jpg);
+    background-size: cover;
+    background-position: top;
+    display: flex;
 }

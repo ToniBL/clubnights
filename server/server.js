@@ -413,7 +413,12 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    if (!req.session.userId) {
+        // if the user is not logged in, redirect to /welcome
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+    }
 });
 
 // we changed app to server to set up socket. app got "wrapped" in server

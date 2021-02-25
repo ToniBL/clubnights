@@ -2,12 +2,11 @@ import { HashRouter, Route } from "react-router-dom";
 import Registration from "./registration";
 import Login from "./login";
 import Resetpassword from "./resetpassword";
-import Navbar from "./navbar";
+//import Navbar from "./navbar";
 
 export default function Welcome() {
     return (
-        <div id="welcome">
-            <Navbar />
+        <div className="welcome">
             <HashRouter>
                 <div>
                     <Route exact path="/" component={Registration} />

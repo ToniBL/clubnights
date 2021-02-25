@@ -41,27 +41,31 @@ export default class Login extends React.Component {
 
     render() {
         return (
-            <div>
+            <section className="login">
                 {this.state.err && (
                     <p> ERROR: Something went wrong please try again</p>
                 )}
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="email"
-                    type="text"
-                    placeholder="email"
-                ></input>
-                <input
-                    onChange={(e) => this.handleChange(e)}
-                    name="password"
-                    type="password"
-                    placeholder="password"
-                ></input>
+                <div className="login-form">
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="email"
+                        type="text"
+                        placeholder="email"
+                    ></input>
+                    <input
+                        onChange={(e) => this.handleChange(e)}
+                        name="password"
+                        type="password"
+                        placeholder="password"
+                    ></input>
+                </div>
                 <button onClick={() => this.clickLogin()}>Login</button>
-                Click<Link to="/"> here </Link>to register! Click
-                <Link to="/resetpassword"> here </Link>if you forgot your
-                password!
-            </div>
+                <p className="login-text">
+                    Click<Link to="/"> here </Link>to register! Click
+                    <Link to="/resetpassword"> here </Link>if you forgot your
+                    password!{" "}
+                </p>
+            </section>
         );
     }
 }

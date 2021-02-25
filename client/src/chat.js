@@ -24,19 +24,23 @@ export default function Chat() {
 
     const submitMessage = (e) => {
         console.log("MESSAGE in chat:", message);
-        e.preventDefault();
-        socket.emit("chatMessage", message);
+        if (e.key === "Enter" && elemRef.current.value != 0) {
+            e.preventDefault();
+            socket.emit("chatMessage", message);
+            e.target.value = "";
+        }
     };
 
     return (
-        <div>
-            <h1>ChitChat</h1>
+        <section className="chat">
+            <h1>Chatterbox</h1>
             <div className="chatbox">
                 <textarea
                     cols="30"
                     rows="10"
                     placeholder="your text"
                     onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => submitMessage(e)}
                 ></textarea>
                 <button onClick={(e) => submitMessage(e)}>Send</button>
                 <div className="chatstream" ref={elemRef}>
@@ -44,6 +48,7 @@ export default function Chat() {
                         msgs.map((message, index) => (
                             <div className="message" key={index}>
                                 <img
+                                    size="small"
                                     src={
                                         message.profile_pic_url ||
                                         "/002-ganesha.svg"
@@ -58,6 +63,6 @@ export default function Chat() {
                         ))}
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

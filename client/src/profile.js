@@ -25,17 +25,12 @@ export default function Profile({
                         size="large"
                         toggleUploader={toggleUploader}
                     />
-                    <div className="bio-text">
-                        <h3>Mission-Statement</h3>
-                        <Bioedit bio={bio} setBio={setBio} />
-                    </div>
+                    <h1>{`${first} ${last}`}</h1>
                 </div>
-                <h1>{`${first} ${last}`}</h1>
-            </div>
-
-            <div className="profile-content">
-                <div className="image-galery"></div>
-                <div className="comments"></div>
+                <div className="bio-text">
+                    <h3>Mission-Statement</h3>
+                    <Bioedit bio={bio} setBio={setBio} />
+                </div>
             </div>
         </div>
     );

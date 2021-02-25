@@ -93,7 +93,6 @@ export default class App extends React.Component {
                     {this.state.uploaderVisible && (
                         <Uploader setProfilePicUrl={this.setProfilePicUrl} />
                     )}
-
                     <Route
                         exact
                         path="/"
@@ -131,7 +130,7 @@ export default class App extends React.Component {
                         )}
                     />
                     <Route path="/friendslist" render={() => <Friends />} />
-                    <Route path="/chat" render={() => <Chat />} />
+                    <Route size="small" path="/chat" render={() => <Chat />} />
                 </BrowserRouter>
             </div>
         );
