@@ -32,23 +32,26 @@ export default function Dancefloor() {
     };
 
     return (
-        <div className="dancefloor">
+        <section className="club">
             {" "}
-            {rows.map((_, indexRow) =>
-                columns.map((_, indexCol) => (
-                    <div
-                        className="square"
-                        key={`id-${indexRow}-${indexCol}`}
-                        indexrow={`${indexRow}`}
-                        indexcol={`${indexCol}`}
-                        ref={elemRef}
-                        onMouseEnter={() =>
-                            handleMouseEnter({ indexRow, indexCol })
-                        }
-                    ></div>
-                ))
-            )}
             <Colorpicker />
-        </div>
+            <div className="dancefloor">
+                {" "}
+                {rows.map((_, indexRow) =>
+                    columns.map((_, indexCol) => (
+                        <div
+                            className="square"
+                            key={`id-${indexRow}-${indexCol}`}
+                            indexrow={`${indexRow}`}
+                            indexcol={`${indexCol}`}
+                            ref={elemRef}
+                            onMouseEnter={() =>
+                                handleMouseEnter({ indexRow, indexCol })
+                            }
+                        ></div>
+                    ))
+                )}
+            </div>
+        </section>
     );
 }

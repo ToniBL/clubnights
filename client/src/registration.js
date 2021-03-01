@@ -66,24 +66,28 @@ export default class Registration extends React.Component {
                     <h1>regular queue</h1>
                     <div className="registration-form">
                         <input
+                            className="input-entrance"
                             onChange={(e) => this.handleChange(e)}
                             name="first"
                             type="text"
                             placeholder="first"
                         ></input>
                         <input
+                            className="input-entrance"
                             onChange={(e) => this.handleChange(e)}
                             name="last"
                             type="text"
                             placeholder="last"
                         ></input>
                         <input
+                            className="input-entrance"
                             onChange={(e) => this.handleChange(e)}
                             name="email"
                             type="text"
                             placeholder="email"
                         ></input>
                         <input
+                            className="input-entrance"
                             onChange={(e) => this.handleChange(e)}
                             name="password"
                             type="password"

@@ -31,6 +31,18 @@ if (process.env.cookie_secret) {
     cookie_sec = require("./secrets.json").sessionSecret;
 }
 
+// LAST FM API
+// const LastFM = require("last-fm");
+// const lastfm = new LastFM("92e33bef21762a90edba30a0aa37513c", {
+//     userAgent: "MyApp/clubnights",
+// });
+// lastfm.trackSearch({ q: "control" }, (err, data) => {
+//     if (err) console.log(err);
+//     else console.log(data);
+// });
+
+///
+
 app.use(compression());
 
 app.use(express.static(path.join(__dirname, "..", "client", "public")));

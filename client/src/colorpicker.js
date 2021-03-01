@@ -56,7 +56,7 @@ export default function Colorpicker() {
     };
 
     return (
-        <section>
+        <section className="colorpicker">
             <input
                 name="color"
                 type="color"

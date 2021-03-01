@@ -45,12 +45,14 @@ export default class Login extends React.Component {
                 <h1>guestlist</h1>
                 <div className="registration-form">
                     <input
+                        className="input-entrance"
                         onChange={(e) => this.handleChange(e)}
                         name="email"
                         type="text"
                         placeholder="email"
                     ></input>
                     <input
+                        className="input-entrance"
                         onChange={(e) => this.handleChange(e)}
                         name="password"
                         type="password"
