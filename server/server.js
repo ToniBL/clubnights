@@ -128,7 +128,7 @@ app.post("/registration", (req, res) => {
 
 // PART 2 LOGIN
 app.post("/login", (req, res) => {
-    // console.log("req.body in login:", req.body);
+    console.log("req.body in login:", req.body);
     const password = req.body.password;
     //  console.log(password);
     db.loginUser(req.body.email)
@@ -155,6 +155,24 @@ app.post("/login", (req, res) => {
             console.log("err in loginUser:", err);
             return res.json({ err: true });
         });
+});
+
+// COLORPICKER
+app.post("/colorpicker", async (req, res) => {
+    console.log("req.body in colorpicker:", req.body);
+
+    try {
+        const { color } = await db.chooseColor(
+            req.session.userId,
+            req.body.color
+        );
+        res.json({
+            rows: result.rows[0].color,
+        });
+    } catch (err) {
+        console.log("err on server post color:", err);
+        res.json({ success: false });
+    }
 });
 
 // PART 3 RESET PW
@@ -467,5 +485,34 @@ io.on("connection", async (socket) => {
         } catch (error) {
             console.log("Err in addMsg: ", error);
         }
+    });
+
+    // DANCEFLOOR
+
+    socket.on("color", async (color) => {
+        try {
+            console.log("color in socket:", color);
+            if (color) {
+                await db.addColor(userId, color.color);
+
+                const { rows } = await db.getUserData(userId);
+                console.log("rows nach get user:", rows);
+                const dancer = {
+                    id: rows[0].id,
+                    first: rows[0].first,
+                    last: rows[0].last,
+                    color: color,
+                };
+                console.log("dancer:", dancer);
+                io.emit("color", dancer);
+            }
+        } catch (err) {
+            console.log("err in chooseColor:", err);
+        }
+    });
+
+    socket.on("coordinates", (coordinates) => {
+        console.log("coordinates in socket:", coordinates);
+        io.emit("coordinates", coordinates);
     });
 });

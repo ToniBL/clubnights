@@ -10,6 +10,7 @@ import FindPeople from "./findpeople";
 import Friends from "./friends";
 import Logout from "./logout";
 import Chat from "./chat";
+import Dancefloor from "./dancefloor";
 
 //class component for app
 // logo, profile-pic, uploader in here
@@ -25,6 +26,7 @@ export default class App extends React.Component {
             profile_pic_url: "",
             draftBio: "",
             uploaderVisible: false,
+            color: "",
         };
         this.toggleUploader = this.toggleUploader.bind(this);
 
@@ -130,7 +132,18 @@ export default class App extends React.Component {
                         )}
                     />
                     <Route path="/friendslist" render={() => <Friends />} />
-                    <Route size="small" path="/chat" render={() => <Chat />} />
+                    <Route path="/chat" render={() => <Chat />} />
+                    <Route
+                        path="/dancefloor"
+                        render={() => (
+                            <Dancefloor
+                                id={this.state.id}
+                                first={this.state.first}
+                                last={this.state.last}
+                                color={this.state.color}
+                            />
+                        )}
+                    />
                 </BrowserRouter>
             </div>
         );

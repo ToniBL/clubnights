@@ -11,7 +11,6 @@ export default function Profile({
     bio,
     setBio,
 }) {
-    // console.log("props in profile:", props);
     // console.log("props.bio:", props.bio);
     return (
         <div className="profile-component">

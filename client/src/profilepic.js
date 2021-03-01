@@ -11,7 +11,7 @@ export default function ProfilePic({
         <div className={`profile-pic-box ${size}`}>
             <img
                 className="profile-pic"
-                src={profile_pic_url || "002-ganesha.svg"}
+                src={profile_pic_url || "001-headphones.svg"}
                 alt={`${first} ${last}`}
                 onClick={toggleUploader}
             ></img>

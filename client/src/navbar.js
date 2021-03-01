@@ -19,30 +19,20 @@ export default function Navbar({
                 <Logo className="logo" />
                 <div className="navelements">
                     <div className="navitem">
-                        <NavLink style={{ textDecoration: "none" }} to="/">
-                            <p>Home</p>
+                        <NavLink style={{ textDecoration: "none" }} to="/chat">
+                            <p> bar</p>
                         </NavLink>
                     </div>
                     <div className="navitem">
                         <NavLink
                             style={{ textDecoration: "none" }}
-                            to="/friendslist"
+                            to="/dancefloor"
                         >
-                            <p>Friends </p>
+                            <p> dancefloor</p>
                         </NavLink>
                     </div>
                     <div className="navitem">
-                        <NavLink style={{ textDecoration: "none" }} to="/users">
-                            <p> Search</p>
-                        </NavLink>
-                    </div>
-                    <div className="navitem">
-                        <NavLink style={{ textDecoration: "none" }} to="/chat">
-                            <p> Chat</p>
-                        </NavLink>
-                    </div>
-                    <div className="navitem">
-                        <a href="/logout">Logout</a>
+                        <a href="/logout">exit</a>
                     </div>
                 </div>
                 <div className={`profile-pic${size}`}>

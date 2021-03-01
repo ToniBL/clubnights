@@ -3,6 +3,7 @@
 import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
+import Login from "./login";
 
 export default class Registration extends React.Component {
     constructor() {
@@ -57,46 +58,44 @@ export default class Registration extends React.Component {
 
     render() {
         return (
-            <section className="registration">
+            <section className="entrance">
                 {this.state.err && (
                     <p> ERROR: Something went wrong please try again</p>
                 )}
-                <div className="Welcome-text">
-                    <h1 className="welcome">Welcome to Breathe</h1>
-                    <p className="subtitle">
-                        {" "}
-                        a socialnetwork for humans breathing and making a fuss
-                        about it{" "}
-                    </p>
+                <div className="queue">
+                    <h1>regular queue</h1>
+                    <div className="registration-form">
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="first"
+                            type="text"
+                            placeholder="first"
+                        ></input>
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="last"
+                            type="text"
+                            placeholder="last"
+                        ></input>
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="email"
+                            type="text"
+                            placeholder="email"
+                        ></input>
+                        <input
+                            onChange={(e) => this.handleChange(e)}
+                            name="password"
+                            type="password"
+                            placeholder="password"
+                        ></input>
+                        <button onClick={() => this.handleClick()}>
+                            submit
+                        </button>
+                    </div>
                 </div>
-                <div className="registration-form">
-                    <input
-                        onChange={(e) => this.handleChange(e)}
-                        name="first"
-                        type="text"
-                        placeholder="first"
-                    ></input>
-                    <input
-                        onChange={(e) => this.handleChange(e)}
-                        name="last"
-                        type="text"
-                        placeholder="last"
-                    ></input>
-                    <input
-                        onChange={(e) => this.handleChange(e)}
-                        name="email"
-                        type="text"
-                        placeholder="email"
-                    ></input>
-                    <input
-                        onChange={(e) => this.handleChange(e)}
-                        name="password"
-                        type="password"
-                        placeholder="password"
-                    ></input>
-                    <button onClick={() => this.handleClick()}>submit</button>
-                </div>
-                Allready registered? <Link to="/login">Log in!</Link>
+
+                <Login />
             </section>
         );
     }

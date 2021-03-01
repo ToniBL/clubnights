@@ -134,3 +134,9 @@ module.exports.addMessage = (sender_id, message) => {
     const params = [sender_id, message];
     return db.query(q, params);
 };
+
+module.exports.addColor = (id, color) => {
+    const q = `UPDATE users SET color = $2 WHERE id = $1`;
+    const params = [id, color];
+    return db.query(q, params);
+};

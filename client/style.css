@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Parisienne&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=Cormorant+Upright:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DotGothic16&display=swap");
 
 * {
     margin: 0;
@@ -8,32 +6,44 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: rgb(36, 28, 36);
+}
+
 /*WELCOME*/
 
-.registration {
-    height: 100vh;
-    width: 100%;
-    background-image: url(breathe.jpg);
-    background-size: cover;
-    background-position: center;
+.entrance {
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    flex-direction: column;
-    font-family: "Parisienne", cursive;
-    color: rgb(240, 240, 243);
+    font-family: "DotGothic16", sans-serif;
 }
 
-.welcome {
-    color: rgb(240, 240, 243);
-    font-size: 40px;
-    margin-top: 150px;
-    text-align: center;
+.entrance h1 {
+    color: rgb(224, 94, 241);
+    font-size: 35px;
+    margin: 10px;
+    letter-spacing: 0.7rem;
+}
+.queue {
+    width: 50%;
+    height: 100vh;
+    background-color: rgb(37, 25, 37);
+}
+.queue:hover {
+    background-color: rgb(66, 43, 66);
+    transition: 1s ease;
 }
 
-.subtitle {
-    color: rgb(240, 240, 243);
-    font-size: 30px;
-    text-align: center;
+.guestlist {
+    height: 100vh;
+    width: 50%;
+}
+
+.guestlist:hover {
+    background-color: rgb(66, 43, 66);
+    transition: 1s ease;
 }
 
 .registration-form {
@@ -42,58 +52,34 @@
     align-items: center;
     margin-top: 50px;
     padding: 50px;
-    background-color: rgba(84, 98, 128, 0.6);
     width: 450px;
     height: 250px;
     border-radius: 10px;
+    color: white;
 }
 
 .registration-form input {
-    height: 30px;
+    height: 35px;
     width: 300px;
-
+    background-color: rgb(36, 28, 36);
+    font-size: 20px;
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
+    border-bottom-style: hidden;
+}
+
+.registration-form input:hover {
     border-bottom-style: groove;
-    background-color: #14160b00;
+    background-color: rgb(66, 43, 66);
+    transition: 0.5s;
 }
 
-.login {
-    height: 100vh;
-    width: 100%;
-    background-image: url(yogafly.jpg);
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    font-family: "Parisienne", cursive;
-    color: rgb(240, 240, 243);
-}
-
-.login-form input {
-    height: 30px;
-    width: 300px;
-
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: groove;
-    background-color: #14160b00;
-    color: rgb(87, 76, 32);
-}
-
-.login-text {
-    justify-self: flex-end;
-    color: rgb(87, 76, 32);
-    font-size: 30px;
-}
 /*NAVBAR*/
 
 .header {
-    box-shadow: 2px 8px 26px -14px rgba(0, 0, 0, 0.75);
-    font-family: "Parisienne", cursive;
+    box-shadow: 2px 12px 26px -5px rgba(200, 165, 211, 0.75);
+    font-family: "DotGothic16", sans-serif;
 }
 
 .navbar {
@@ -101,7 +87,8 @@
     flex-direction: row;
     justify-content: space-between;
     height: 70px;
-    background-color: rgba(175, 215, 221, 0.301);
+    background-color: rgb(224, 94, 241);
+    box-shadow: 0 0 2px #000;
     margin-bottom: 0px;
 }
 
@@ -110,13 +97,14 @@
     flex-direction: row;
     justify-content: flex-end;
     margin-top: 10px;
+    color: rgb(180, 105, 190);
 
     padding: 20px;
-    font-size: 25px;
+    font-size: 35px;
 }
 
 .navitem {
-    margin: 15px;
+    margin: -5px 20px 40px 15px;
     text-decoration: none;
 }
 
@@ -136,12 +124,41 @@ a {
 }
 
 .greeting {
-    background-color: #d9f19844;
-    color: rgb(87, 76, 32);
+    background-color: rgba(24, 14, 26, 0.479);
+    color: rgb(224, 94, 241);
 
-    padding: 5px;
+    padding-left: 25px;
     font-size: 20px;
 }
+
+/*DANCEFLOOR*/
+.dancefloor {
+    display: grid;
+    grid-template-rows: repeat(20, 1fr);
+    grid-template-columns: repeat(20, 1fr);
+    gap: 5px;
+    max-width: 70%;
+    margin: 50px;
+    background-color: rgb(46, 38, 46);
+    box-shadow: 7px 12px 15px 3px rgba(0, 0, 0, 0.87);
+    border: solid black 1px;
+}
+
+.square {
+    background-color: #1d1d1d;
+    box-shadow: 0 0 2px #000;
+    height: 40px;
+    width: 40px;
+    color: white;
+
+    transition: 2s ease;
+}
+
+.square:hover {
+    transition-duration: 250ms;
+    background-color: palevioletred;
+}
+
 /*PROFILE*/
 
 .profile-pic-box .profile-pic {
@@ -253,8 +270,6 @@ a {
 .chat {
     height: 100%;
     width: 100%;
-    background-image: url(GoodVibes.jpg);
-    background-size: cover;
-    background-position: top;
+
     display: flex;
 }
