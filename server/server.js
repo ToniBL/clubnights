@@ -541,7 +541,7 @@ io.on("connection", async (socket) => {
                 col: indexCol,
             };
             console.log("onDancefloor:", onDancefloor);
-            io.emit("coordinates", coordinates);
+            io.emit("newDancer", onDancefloor);
         } catch (err) {
             console.log("err in coordinates:", err);
         }

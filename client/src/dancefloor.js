@@ -4,7 +4,11 @@
 // useEffect runs whenever coordinates get updated
 // useEffect then somehow ueses useRef to update the DOM e.a. to color the square (BIG QUESTIONMARK? Or does this updating happening serverside?)
 // handleMouseEnter emits the coordinates to socket
-// QUESTION: When exactly does setCoordinates get called? Can I have two events on Mouseenter?
+
+// dancer [] get's updated with every useEffect / setDancer
+// check array for new dancer (id), if new dancer spread into existing array
+// match id, color and coordinates and update accordingly
+// add default colour
 
 import { times } from "lodash";
 import { socket } from "./socket";
@@ -12,18 +16,24 @@ import { socket } from "./socket";
 import { useState, useEffect, useRef } from "react";
 import Colorpicker from "./colorpicker";
 
-// const colors = ["#e74c3c", "#8e44ad", "3498db", "#e67e22"];
-
 export default function Dancefloor() {
+    // state with dancers // neuer dancer (array.find / filter): alte spreaden und neue dazu// neue koordinaten: dancer/farbe-bewegung updaten
+
     const rows = times(20);
     const columns = times(20);
 
     const [coordinates, setCoordinates] = useState({});
+    const [dancer, setDancers] = useState([]);
 
     const elemRef = useRef();
 
     useEffect(() => {
         elemRef;
+        socket.on("newDancer", (dancerObj) => {
+            console.log("dancerObj:", dancerObj);
+
+            for (let i = 0; i < dancer.length; i++) {}
+        });
     }, [coordinates]);
 
     const handleMouseEnter = (indexRow, indexCol) => {
