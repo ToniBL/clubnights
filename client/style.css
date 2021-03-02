@@ -99,7 +99,7 @@ button:hover {
 }
 
 button:active {
-    transform: scale(0.95);
+    transform: scale(0.9);
 }
 
 /*NAVBAR*/
@@ -156,7 +156,8 @@ button:active {
 
 .greeting {
     background-color: rgba(24, 14, 26, 0.479);
-    color: rgb(224, 94, 241);
+    color: rgb(215, 248, 148);
+    letter-spacing: 0.3rem;
 
     padding: 10px 5px 10px 25px;
     font-size: 20px;
@@ -210,9 +211,9 @@ button:active {
 
 .profile-pic-box.small {
     position: absolute;
-    right: 20px;
-    width: 80px;
-    height: 80px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
 
     /* clip-path: circle(50% at 50% 50%); */
     cursor: pointer;

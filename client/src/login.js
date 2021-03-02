@@ -31,7 +31,7 @@ export default class Login extends React.Component {
                 if (resp.data.err) {
                     return this.setState({ err: true });
                 } else {
-                    return location.replace("/");
+                    return location.replace("/dancefloor");
                 }
             })
             .catch((err) => {

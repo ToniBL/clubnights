@@ -28,6 +28,7 @@ export default function Dancefloor() {
 
     const handleMouseEnter = (indexRow, indexCol) => {
         console.log(indexRow, indexCol);
+        setCoordinates({ indexRow, indexCol });
         socket.emit("coordinates", coordinates);
     };
 
@@ -46,7 +47,7 @@ export default function Dancefloor() {
                             indexcol={`${indexCol}`}
                             ref={elemRef}
                             onMouseEnter={() =>
-                                handleMouseEnter({ indexRow, indexCol })
+                                handleMouseEnter(indexRow, indexCol)
                             }
                         ></div>
                     ))

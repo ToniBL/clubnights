@@ -463,7 +463,7 @@ server.listen(process.env.PORT || 3001, function () {
 // PART 10
 
 io.on("connection", async (socket) => {
-    console.log(socket.request.session);
+    //  console.log(socket.request.session);
     const userId = socket.request.session.userId;
     console.log(`socket with id: ${socket.id} has connected`);
     if (!userId) {
@@ -507,7 +507,7 @@ io.on("connection", async (socket) => {
             if (color) {
                 await db.addColor(userId, color.color);
 
-                const { rows } = await db.getUserData(userId);
+                //const { rows } = await db.getUserData(userId);
                 console.log("rows nach get user:", rows);
                 const dancer = {
                     id: rows[0].id,
@@ -515,7 +515,7 @@ io.on("connection", async (socket) => {
                     last: rows[0].last,
                     color: color,
                 };
-                console.log("dancer:", dancer);
+                //  console.log("dancer:", dancer);
                 io.emit("color", dancer);
             }
         } catch (err) {
@@ -523,8 +523,27 @@ io.on("connection", async (socket) => {
         }
     });
 
-    socket.on("coordinates", (coordinates) => {
-        console.log("coordinates in socket:", coordinates);
-        io.emit("coordinates", coordinates);
+    socket.on("coordinates", async (coordinates) => {
+        // create an array of userObj [{ socketId: ["superlongMumbleJumbleLetters"],
+        // userId: 3,color:"#000000",colIndex:18,colIndex:19, onTheDF:true}]
+        try {
+            let { indexRow, indexCol } = coordinates;
+            //console.log("socket:", socket);
+            const { rows } = await db.getUserData(userId);
+            //console.log("rows nach get user in coordinates:", rows);
+            const onDancefloor = {
+                socketId: socket.id,
+                id: rows[0].id,
+                first: rows[0].first,
+                last: rows[0].last,
+                color: rows[0].color,
+                row: indexRow,
+                col: indexCol,
+            };
+            console.log("onDancefloor:", onDancefloor);
+            io.emit("coordinates", coordinates);
+        } catch (err) {
+            console.log("err in coordinates:", err);
+        }
     });
 });

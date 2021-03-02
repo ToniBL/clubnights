@@ -13,40 +13,12 @@ export default function Colorpicker() {
         });
     };
 
-    // chooseColor() {
-    //         axios
-    //             .post("/colorpicker", this.state)
-    //             .then((resp) => {
-    //                 console.log("resp.data from server:", resp.data);
-    //                 if (resp.data.err) {
-    //                     return this.setState({ err: true });
-    //                 } else {
-    //                     return location.replace("/");
-    //                 }
-    //             })
-    //             .catch((err) => {
-    //                 console.log("err in clickLogin:", err);
-    //             });
-    //     }
-
     useEffect(async () => {
         console.log("Color", color);
         return () => {
             console.log("color:", color);
         };
     }, [color]);
-
-    // return (
-    //     <section className="Colorpicker">
-    //         <input
-    //             type="color"
-    //             id="color-picker"
-    //             onChange={(e) => this.handleChange(e)}
-    //             color="color"
-    //         ></input>
-    //         <button onClick={() => this.clickLogin()}>Select</button>
-    //     </section>
-    // );
 
     const changeColor = (e) => {
         //console.log("color picked:" color);
