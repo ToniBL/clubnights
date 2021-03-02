@@ -29,6 +29,7 @@ export default function Colorpicker() {
 
     return (
         <section className="colorpicker">
+            Hey dancemachine, choose a color and get freaky
             <input
                 name="color"
                 type="color"

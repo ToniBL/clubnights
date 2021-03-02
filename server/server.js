@@ -531,15 +531,17 @@ io.on("connection", async (socket) => {
             //console.log("socket:", socket);
             const { rows } = await db.getUserData(userId);
             //console.log("rows nach get user in coordinates:", rows);
-            const onDancefloor = {
-                socketId: socket.id,
-                id: rows[0].id,
-                first: rows[0].first,
-                last: rows[0].last,
-                color: rows[0].color,
-                row: indexRow,
-                col: indexCol,
-            };
+            const onDancefloor = [
+                {
+                    socketId: socket.id,
+                    id: rows[0].id,
+                    first: rows[0].first,
+                    last: rows[0].last,
+                    color: rows[0].color,
+                    row: indexRow || null,
+                    col: indexCol || null,
+                },
+            ];
             console.log("onDancefloor:", onDancefloor);
             io.emit("newDancer", onDancefloor);
         } catch (err) {

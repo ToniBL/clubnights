@@ -23,7 +23,7 @@ export default function Dancefloor() {
     const columns = times(20);
 
     const [coordinates, setCoordinates] = useState({});
-    const [dancer, setDancers] = useState([]);
+    const [dancers, setDancers] = useState([]);
 
     const elemRef = useRef();
 
@@ -31,15 +31,27 @@ export default function Dancefloor() {
         elemRef;
         socket.on("newDancer", (dancerObj) => {
             console.log("dancerObj:", dancerObj);
-
-            for (let i = 0; i < dancer.length; i++) {}
+            setDancers(dancerObj);
         });
-    }, [coordinates]);
+    }, []);
 
     const handleMouseEnter = (indexRow, indexCol) => {
         console.log(indexRow, indexCol);
         setCoordinates({ indexRow, indexCol });
         socket.emit("coordinates", coordinates);
+    };
+
+    const isDancer = (indexRow, indexCol) => {
+        // check iscol/row -> false = black / true = color
+
+        let results = dancers.map(({ row, col, color }) => {
+            const isCol = col === indexCol;
+            const isRow = row === indexRow;
+            return isCol && isRow ? color : "";
+        });
+        results.filter((result) => result);
+        // all empty strings are falsy, string with color is truthy
+        return results[0] || false;
     };
 
     return (
@@ -51,7 +63,15 @@ export default function Dancefloor() {
                 {rows.map((_, indexRow) =>
                     columns.map((_, indexCol) => (
                         <div
-                            className="square"
+                            className={`square ${
+                                isDancer(indexRow, indexCol) ? "dancer" : ""
+                            }`}
+                            style={{
+                                backgroundColor: `${
+                                    isDancer(indexRow, indexCol) || ""
+                                }`,
+                                boxShadow: `0 0 2px #000`,
+                            }}
                             key={`id-${indexRow}-${indexCol}`}
                             indexrow={`${indexRow}`}
                             indexcol={`${indexCol}`}
