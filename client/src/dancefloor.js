@@ -15,6 +15,7 @@ import { socket } from "./socket";
 
 import { useState, useEffect, useRef } from "react";
 import Colorpicker from "./colorpicker";
+import ReactPlayer from "./dj";
 
 export default function Dancefloor() {
     // state with dancers // neuer dancer (array.find / filter): alte spreaden und neue dazu// neue koordinaten: dancer/farbe-bewegung updaten
@@ -31,9 +32,13 @@ export default function Dancefloor() {
         elemRef;
         socket.on("newDancer", (dancerObj) => {
             console.log("dancerObj:", dancerObj);
-            setDancers(dancerObj);
+            setDancers([...dancers, dancerObj]);
         });
     }, []);
+
+    useEffect(() => {
+        console.log("dancers got updated:", dancers);
+    }, [dancers]);
 
     const handleMouseEnter = (indexRow, indexCol) => {
         console.log(indexRow, indexCol);
@@ -58,6 +63,7 @@ export default function Dancefloor() {
         <section className="club">
             {" "}
             <Colorpicker />
+            <ReactPlayer />
             <div className="dancefloor">
                 {" "}
                 {rows.map((_, indexRow) =>

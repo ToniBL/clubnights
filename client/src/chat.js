@@ -33,28 +33,34 @@ export default function Chat() {
 
     return (
         <section className="chat">
-            <h1>Chatterbox</h1>
+            <div className="bar-title">
+                <h1>bar</h1>
+                <p> grab a beer, chill and chat </p>
+            </div>
+
             <div className="chatbox">
                 <textarea
-                    cols="30"
-                    rows="10"
+                    className="textfield"
+                    cols="20"
+                    rows="5"
                     placeholder="your text"
                     onChange={(e) => setMessage(e.target.value)}
                     onKeyDown={(e) => submitMessage(e)}
                 ></textarea>
-                <button onClick={(e) => submitMessage(e)}>Send</button>
+
                 <div className="chatstream" ref={elemRef}>
                     {msgs &&
                         msgs.map((message, index) => (
                             <div className="message" key={index}>
                                 <img
+                                    className="logo-nav"
                                     size="small"
                                     src={
                                         message.profile_pic_url ||
-                                        "/002-ganesha.svg"
+                                        "/001-headphones.svg"
                                     }
                                 />
-                                <p>
+                                <p className="messanger">
                                     {message.first} {message.last}
                                     {""}
                                 </p>

@@ -62,9 +62,11 @@ export default function Navbar({
                     />
                 </div>{" "}
             </nav>
-            <p className="greeting">
-                Namaste, {first} {last}! Good to see you!
-            </p>
+            <div className="greeting">
+                <div className="greeting-text">
+                    Namaste, {first} {last}! Good to see you!
+                </div>
+            </div>
         </section>
     );
 }
