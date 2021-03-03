@@ -505,14 +505,14 @@ io.on("connection", async (socket) => {
         try {
             console.log("color in socket:", color);
             if (color) {
-                await db.addColor(userId, color.color);
+                await db.addColor(userId, color);
 
                 //const { rows } = await db.getUserData(userId);
-                console.log("rows nach get user:", rows);
+                console.log("rows nach get user:", color.rows);
                 const dancer = {
-                    id: rows[0].id,
-                    first: rows[0].first,
-                    last: rows[0].last,
+                    id: color.rows[0].id,
+                    first: color.rows[0].first,
+                    last: color.rows[0].last,
                     color: color,
                 };
                 //  console.log("dancer:", dancer);
@@ -541,7 +541,7 @@ io.on("connection", async (socket) => {
                 col: indexCol || null,
             };
             console.log("onDancefloor:", onDancefloor);
-            io.emit("newDancer", onDancefloor);
+            socket.broadcast.emit("newDancer", onDancefloor);
         } catch (err) {
             console.log("err in coordinates:", err);
         }

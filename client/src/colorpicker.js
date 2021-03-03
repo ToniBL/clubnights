@@ -2,7 +2,6 @@ import axios from "./axios";
 import { useState, useEffect } from "react";
 import { socket } from "./socket";
 
-// simple react app
 const Colorpicker = () => {
     // here comes the css custom property action
     // first create a state property which holds the color prop
@@ -12,7 +11,7 @@ const Colorpicker = () => {
         setColor(e.target.value);
     };
 
-    // target is to set the new values for both colors each time they change
+    // target is to set the new values for the colors each time it changes
     useEffect(() => {
         // we will change here the values of the css custom properties
         // since we define them ourselfs we know the names ;)
@@ -29,7 +28,6 @@ const Colorpicker = () => {
         //console.log("color picked:" color);
         e.preventDefault();
         socket.emit("color", color);
-        e.target.value = "";
     };
 
     return (
