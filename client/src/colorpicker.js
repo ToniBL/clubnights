@@ -33,12 +33,18 @@ const Colorpicker = () => {
     return (
         <div className="box">
             <div className="wrapper">
-                <span>Color Picker for Background Color</span>
-                <input type="color" onChange={handleChange} />
+                <span>choose a color and get freaky ! </span>
+                <input
+                    className="colorpicker-input"
+                    type="color"
+                    onChange={handleChange}
+                />
                 <button
                     className="select-color"
                     onClick={(e) => changeColor(e)}
-                ></button>
+                >
+                    select
+                </button>
             </div>
         </div>
     );

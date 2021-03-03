@@ -45,7 +45,7 @@ export default class Registration extends React.Component {
                         err: true,
                     });
                 } else {
-                    location.replace("/");
+                    location.replace("/dancefloor");
                 }
             })
             .catch((err) => {

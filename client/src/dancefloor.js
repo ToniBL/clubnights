@@ -20,8 +20,8 @@ import ReactPlayer from "./dj";
 export default function Dancefloor() {
     // state with dancers // neuer dancer (array.find / filter): alte spreaden und neue dazu// neue koordinaten: dancer/farbe-bewegung updaten
 
-    const rows = times(20);
-    const columns = times(20);
+    const rows = times(16);
+    const columns = times(16);
 
     const [coordinates, setCoordinates] = useState({});
     const [dancers, setDancers] = useState([]);
@@ -59,9 +59,38 @@ export default function Dancefloor() {
         return results[0] || false;
     };
 
+    // setInterval(function () {
+    //     var colors = ["white", "black", "hotpink", "limegreen"];
+    //     document.body.style.backgroundColor =
+    //         colors[Math.floor(Math.random() * colors.length)];
+    // }, 1000);
+
     return (
         <section className="club">
-            {" "}
+            <button
+                className="select-color"
+                onClick={() => {
+                    setInterval(function () {
+                        var colors = ["white", "black", "hotpink", "limegreen"];
+                        document.body.style.backgroundColor =
+                            colors[Math.floor(Math.random() * colors.length)];
+                    }, 80);
+                }}
+            >
+                strobo
+            </button>
+            <button
+                className="select-color"
+                onClick={() => {
+                    setInterval(function () {
+                        var colors = ["rgb(66, 43, 66)", "rgb(46, 38, 46)"];
+                        document.body.style.backgroundColor =
+                            colors[Math.floor(Math.random() * colors.length)];
+                    }, 8000);
+                }}
+            >
+                stop
+            </button>
             <Colorpicker />
             <ReactPlayer />
             <div className="dancefloor">
