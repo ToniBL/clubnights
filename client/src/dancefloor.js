@@ -58,12 +58,21 @@ export default function Dancefloor() {
         // all empty strings are falsy, string with color is truthy
         return results[0] || false;
     };
+    var var1;
 
-    // setInterval(function () {
-    //     var colors = ["white", "black", "hotpink", "limegreen"];
-    //     document.body.style.backgroundColor =
-    //         colors[Math.floor(Math.random() * colors.length)];
-    // }, 1000);
+    function color() {
+        var colors = ["white", "black", "hotpink", "limegreen"];
+        document.body.style.backgroundColor =
+            colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    function strobo() {
+        var1 = setInterval(color, 80);
+    }
+
+    function stop() {
+        clearInterval(var1);
+    }
 
     return (
         <section className="club">
@@ -94,26 +103,12 @@ export default function Dancefloor() {
                     ))
                 )}
             </div>
-            <button
-                className="select-color"
-                onClick={() => {
-                    setInterval(function () {
-                        var colors = ["white", "black", "hotpink", "limegreen"];
-                        document.body.style.backgroundColor =
-                            colors[Math.floor(Math.random() * colors.length)];
-                    }, 40);
-                }}
-            >
+            <button className="select-color" onClick={() => strobo()}>
                 strobo
             </button>
-            {/* <button
-                className="btn-entrance"
-                onClick={() => {
-                    clearInterval();
-                }}
-            >
+            <button className="select-color" onClick={() => stop()}>
                 stop
-            </button> */}
+            </button>
         </section>
     );
 }

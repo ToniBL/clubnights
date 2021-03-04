@@ -6,8 +6,8 @@ function Player() {
             <ReactPlayer
                 className="player"
                 url="/music/14079272_Oh Ohh_(Original Mix).mp3"
-                width="400px"
-                height="50px"
+                width="200px"
+                height="20px"
                 playing={false}
                 controls={true}
             />
