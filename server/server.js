@@ -3,16 +3,18 @@ const app = express();
 // we need a native nodeserver for initial handshake
 //app get's "wrapped" in server / if you want to deplay on heroku you need to also allowRequest
 const server = require("http").Server(app);
-let socketsUrl;
-if (process.env.NODE_ENV == "production") {
-    socketsUrl = "https://clubnights.herokuapp.com";
-} else {
-    socketsUrl = "http://localhost:3000";
-}
-const io = require("socket.io")(server, {
-    allowRequest: (req, callback) =>
-        callback(null, req.headers.referer.startsWith(socketsUrl)),
-});
+// let socketsUrl;
+// if (process.env.NODE_ENV == "production") {
+//     socketsUrl = "https://clubnights.herokuapp.com";
+// } else {
+//     socketsUrl = "http://localhost:3000";
+// }
+// const io = require("socket.io")(server, {
+//     allowRequest: (req, callback) =>
+//         callback(null, req.headers.referer.startsWith(socketsUrl)),
+// });
+const io = require("socket.io")(server, { origins: "*:*" });
+
 const compression = require("compression");
 const path = require("path");
 const db = require("./db");
