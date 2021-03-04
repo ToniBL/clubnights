@@ -447,7 +447,7 @@ app.get("/api/friendslist", async (req, res) => {
 app.get("/logout", (req, res) => {
     req.session = null;
     console.log("req.session.logout:", req.session);
-    res.redirect("/logout");
+    res.redirect("/welcome");
 });
 
 app.get("*", function (req, res) {
