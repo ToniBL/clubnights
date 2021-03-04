@@ -8,7 +8,7 @@ function Player() {
                 url="/music/14079272_Oh Ohh_(Original Mix).mp3"
                 width="200px"
                 height="20px"
-                playing={false}
+                playing={true}
                 controls={true}
             />
         </div>

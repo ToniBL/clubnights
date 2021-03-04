@@ -72,6 +72,7 @@ export default function Dancefloor() {
 
     function stop() {
         clearInterval(var1);
+        document.body.style.backgroundColor = "rgb(36, 28, 36)";
     }
 
     return (
