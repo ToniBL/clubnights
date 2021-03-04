@@ -1,8 +1,23 @@
 const spicedPg = require("spiced-pg");
+
+//this code block when running locally
 const db = spicedPg(
     process.env.DATABASE_URL ||
         `postgres:postgres:postgres@localhost:5432/network`
 );
+// ----
+
+//This Code when deploying
+// let db;
+// if (process.env.DATABASE_URL) {
+//     // this means we are in production on heroku
+//     db = spicedPg(process.env.DATABASE_URL);
+// } else {
+//     // we are running locally
+//     // CAFREFUL your secrets require statement might look different
+//     const { dbuser, dbpass } = require("../secrets.json");
+//     db = spicedPg(`postgres:${postgres}:${postgres}@localhost:5432/network`);
+// }
 
 module.exports.registerUser = (first, last, email, password) => {
     const q = `INSERT INTO users (first, last, email, password)

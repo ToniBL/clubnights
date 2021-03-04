@@ -144,6 +144,7 @@ export default class App extends React.Component {
                             />
                         )}
                     />
+                    <Route path="/logout" render={() => <Logout />} />
                 </BrowserRouter>
             </div>
         );

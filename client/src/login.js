@@ -42,6 +42,11 @@ export default class Login extends React.Component {
     render() {
         return (
             <section className="guestlist">
+                {this.state.err && (
+                    <p className="error">
+                        ERROR: Something went wrong please try again
+                    </p>
+                )}
                 <h1>guestlist</h1>
                 <div className="registration-form">
                     <input
@@ -58,7 +63,12 @@ export default class Login extends React.Component {
                         type="password"
                         placeholder="password"
                     ></input>{" "}
-                    <button onClick={() => this.clickLogin()}>Login</button>
+                    <button
+                        className="btn-entrance"
+                        onClick={() => this.clickLogin()}
+                    >
+                        Login
+                    </button>
                 </div>
             </section>
         );

@@ -60,8 +60,11 @@ export default class Registration extends React.Component {
         return (
             <section className="entrance">
                 {this.state.err && (
-                    <p> ERROR: Something went wrong please try again</p>
+                    <p className="error">
+                        ERROR: Something went wrong please try again
+                    </p>
                 )}
+
                 <div className="queue">
                     <h1>regular queue</h1>
                     <div className="registration-form">
@@ -93,7 +96,10 @@ export default class Registration extends React.Component {
                             type="password"
                             placeholder="password"
                         ></input>
-                        <button onClick={() => this.handleClick()}>
+                        <button
+                            className="btn-entrance"
+                            onClick={() => this.handleClick()}
+                        >
                             submit
                         </button>
                     </div>

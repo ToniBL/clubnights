@@ -9,7 +9,7 @@ CREATE TABLE users(
       password VARCHAR(255) NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       profile_pic_url VARCHAR,
-      bio VARCHAR,
+      bio VARCHAR
       );
 
 CREATE TABLE reset_codes(

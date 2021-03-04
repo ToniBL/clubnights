@@ -24,6 +24,14 @@ body {
     font-family: "DotGothic16", sans-serif;
 }
 
+.error {
+    justify-self: center;
+    font-family: "DotGothic16", sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.7rem;
+    color: rgb(215, 248, 148);
+}
+
 .entrance h1 {
     color: rgb(224, 94, 241);
     font-size: 35px;
@@ -88,14 +96,14 @@ body {
     transition: 0.5s;
 }
 
-button {
+.btn-entrance {
     font-size: 16px;
     background-color: rgb(66, 43, 66);
     color: rgb(224, 94, 241);
     padding: 5px;
     margin: 10px;
     border-radius: 5px;
-    font-family: inherit;
+    font-family: "DotGothic16", sans-serif;
     width: 100%;
     border: 0;
 }
@@ -235,7 +243,7 @@ button:active {
     padding: 5px;
     margin: 10px;
     border-radius: 5px;
-    font-family: inherit;
+    font-family: "DotGothic16", sans-serif;
     width: 7%;
     border: 0;
 }

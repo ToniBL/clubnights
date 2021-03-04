@@ -67,30 +67,6 @@ export default function Dancefloor() {
 
     return (
         <section className="club">
-            <button
-                className="select-color"
-                onClick={() => {
-                    setInterval(function () {
-                        var colors = ["white", "black", "hotpink", "limegreen"];
-                        document.body.style.backgroundColor =
-                            colors[Math.floor(Math.random() * colors.length)];
-                    }, 80);
-                }}
-            >
-                strobo
-            </button>
-            <button
-                className="select-color"
-                onClick={() => {
-                    setInterval(function () {
-                        var colors = ["rgb(66, 43, 66)", "rgb(46, 38, 46)"];
-                        document.body.style.backgroundColor =
-                            colors[Math.floor(Math.random() * colors.length)];
-                    }, 8000);
-                }}
-            >
-                stop
-            </button>
             <Colorpicker />
             <ReactPlayer />
             <div className="dancefloor">
@@ -118,6 +94,26 @@ export default function Dancefloor() {
                     ))
                 )}
             </div>
+            <button
+                className="select-color"
+                onClick={() => {
+                    setInterval(function () {
+                        var colors = ["white", "black", "hotpink", "limegreen"];
+                        document.body.style.backgroundColor =
+                            colors[Math.floor(Math.random() * colors.length)];
+                    }, 40);
+                }}
+            >
+                strobo
+            </button>
+            {/* <button
+                className="btn-entrance"
+                onClick={() => {
+                    clearInterval();
+                }}
+            >
+                stop
+            </button> */}
         </section>
     );
 }
